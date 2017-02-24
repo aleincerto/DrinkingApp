@@ -10,8 +10,30 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="urmc.drinkingapp.MainActivity">
 
-    <TextView
+    <Switch
+        android:text="Drunk Mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_alignParentEnd="true"
+        android:id="@+id/switch1"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="18sp" />
+
+    <Button
+        android:text="Track a Friend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/switch1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="63dp"
+        android:id="@+id/button4" />
+
+    <Button
+        android:text="Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="67dp"
+        android:id="@+id/button5"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/button4" />
 </RelativeLayout>
