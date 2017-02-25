@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">DrinkingApp</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signup_string">Sign Up</string>
+    <string name="signin_string">Sign In</string>
+    <string name="enter_email_string">Enter a valid email</string>
+    <string name="enter_password_string">Enter a valid password</string>
+    <string name="enter_name_string">Enter your name</string>
+    <string name="enter_last_name_string">Enter your last name</string>
+    <string name="cancel_string">Cancel</string>
+
 </resources>

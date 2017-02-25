@@ -103,7 +103,7 @@ public class DrinkingAppCollection {
                 null                                    // order by
         );
         DrinkingAppCursorWrapper wrapper = new DrinkingAppCursorWrapper(cursor);
-        cursor.close();
+        //cursor.close();
 
         User user;
 
@@ -133,7 +133,7 @@ public class DrinkingAppCollection {
                 null                                    // order by
         );
         DrinkingAppCursorWrapper wrapper = new DrinkingAppCursorWrapper(cursor);
-        cursor.close();
+        //cursor.close();
 
         User user;
 
@@ -161,7 +161,7 @@ public class DrinkingAppCollection {
                 null                                    // order by
         );
         DrinkingAppCursorWrapper wrapper = new DrinkingAppCursorWrapper(cursor);
-        cursor.close();
+        //cursor.close();
         return wrapper;
 
 
