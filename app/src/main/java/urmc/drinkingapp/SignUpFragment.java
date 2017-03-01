@@ -1,6 +1,7 @@
 package urmc.drinkingapp;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -45,6 +46,12 @@ public class SignUpFragment extends Fragment {
     private DrinkingAppCollection mCollection;
     private LoginActivity mActivity;
 
+    public interface SignUpProcessCancel{
+        void SignUpCancel();
+    }
+
+    private SignUpProcessCancel mListener;
+
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -69,9 +76,12 @@ public class SignUpFragment extends Fragment {
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mListener.SignUpCancel();
+                /*
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout_login_activity,new LoginFragment())
                         .commit();
+                        */
             }
         });
 
@@ -139,6 +149,12 @@ public class SignUpFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mListener = (SignUpFragment.SignUpProcessCancel)context;
     }
 
 }

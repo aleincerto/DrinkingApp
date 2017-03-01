@@ -10,4 +10,13 @@
     <string name="enter_last_name_string">Enter your last name</string>
     <string name="cancel_string">Cancel</string>
 
+    <string name="B">B</string>
+    <string name="A">A</string>
+    <string name="C">C</string>
+    <string name="H">H</string>
+    <string name="U">U</string>
+    <string name="S">S</string>
+
+
+
 </resources>

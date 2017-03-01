@@ -8,4 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DrinkingTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/colorBlack</item>
+
+        <item name="colorPrimaryDark">@color/Gray1</item>
+
+        <item name="colorAccent">@color/Gold</item>
+
+        <item name="android:colorBackground">@color/wineColor</item>
+
+    </style>
+
 </resources>
