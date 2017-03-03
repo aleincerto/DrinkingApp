@@ -25,8 +25,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".model.DrunkModeDefaultActivity" />
-        <activity android:name=".model.DrunkModeWithFriend"></activity>
+        <activity
+            android:name=".DrunkModeDefaultActivity"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
+            android:name=".DrunkModeWithFriendActivity"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
+            android:name=".EditProfileActivity"
+            android:parentActivityName=".ProfileActivity" >
+        </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:parentActivityName=".MainActivity" >
+        </activity>ale
     </application>
 
 </manifest>

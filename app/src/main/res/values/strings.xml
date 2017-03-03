@@ -9,6 +9,14 @@
     <string name="enter_name_string">Enter your name</string>
     <string name="enter_last_name_string">Enter your last name</string>
     <string name="cancel_string">Cancel</string>
+    <string name="profile_title">My Profile</string>
+    <string name="name_string">Ruby Reynoso</string>
+    <string name="email_string">rreynoso@u.rochester.edu</string>
+    <string name="edit_profile_string">Edit Profile</string>
+    <string name="fullname_hint_string">Enter your fullname</string>
+    <string name="email_hint_string">Enter your email</string>
+    <string name="ok_string">OK</string>
+    <string name="change_profile_pic_string">Change Picture</string>
 
     <string name="B">B</string>
     <string name="A">A</string>
@@ -17,6 +25,5 @@
     <string name="U">U</string>
     <string name="S">S</string>
     <string name="title_activity_drunk_mode">DrunkModeActivity</string>
-
 
 </resources>
