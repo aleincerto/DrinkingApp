@@ -14,7 +14,7 @@
         android:layout_height="60dp"
         android:id="@+id/presettext_button"
         android:text="TEXT"
-        android:layout_width="200dp"
+        android:layout_width="201dp"
         android:layout_marginTop="44dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
