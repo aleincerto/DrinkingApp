@@ -16,7 +16,7 @@
     <string name="H">H</string>
     <string name="U">U</string>
     <string name="S">S</string>
-
+    <string name="title_activity_drunk_mode">DrunkModeActivity</string>
 
 
 </resources>

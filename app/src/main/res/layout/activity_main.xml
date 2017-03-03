@@ -20,20 +20,28 @@
         android:textSize="18sp" />
 
     <Button
-        android:text="Track a Friend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/switch1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="63dp"
-        android:id="@+id/button4" />
-
-    <Button
         android:text="Settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="67dp"
         android:id="@+id/button5"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/button4" />
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="My Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:layout_marginBottom="48dp"
+        android:layout_alignBottom="@+id/button4"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button4"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/button"
+        android:layout_alignEnd="@+id/button" />
 </RelativeLayout>
