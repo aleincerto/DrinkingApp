@@ -25,5 +25,9 @@
     <string name="U">U</string>
     <string name="S">S</string>
     <string name="title_activity_drunk_mode">DrunkModeActivity</string>
+    <string name="plus_string">+</string>
+    <string name="friends_string">Friends</string>
+    <string name="your_friends_profile_string">Your Friend\'s Profile</string>
+    <string name="add_friend_string">Add Friend</string>
 
 </resources>

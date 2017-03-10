@@ -12,7 +12,9 @@ import android.widget.Switch;
 public class MainActivity extends AppCompatActivity {
 
     private Button mProfile;
+    private Button mFriends;
     private Switch mDrunkMode;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(i);
+            }
+        });
+
+        mFriends = (Button) findViewById(R.id.button_friends_main_activity);
+        mFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, FriendsActivity.class);
                 startActivity(i);
             }
         });

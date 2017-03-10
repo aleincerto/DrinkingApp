@@ -27,20 +27,19 @@
         </activity>
         <activity
             android:name=".DrunkModeDefaultActivity"
-            android:parentActivityName=".MainActivity" >
-        </activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DrunkModeWithFriendActivity"
-            android:parentActivityName=".MainActivity" >
-        </activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".EditProfileActivity"
-            android:parentActivityName=".ProfileActivity" >
-        </activity>
+            android:parentActivityName=".ProfileActivity" />
         <activity
             android:name=".ProfileActivity"
-            android:parentActivityName=".MainActivity" >
-        </activity>ale
+            android:parentActivityName=".MainActivity" />
+        ale
+        <activity android:name=".FriendsActivity" />
+        <activity android:name=".ExpandedProfileActivity"></activity>
     </application>
 
 </manifest>

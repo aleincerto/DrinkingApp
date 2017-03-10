@@ -74,6 +74,26 @@ public class User {
         this.mID = mID;
     }
 
+    //method to fix pictures to be displayed in the app
+    public static Bitmap getScaledBitmap(String path, int width, int height) {
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(path, options);
+        float srcWidth = options.outWidth;
+        float srcHeight = options.outHeight;
+        int sampleSize = 1;
+        if(srcHeight > height || srcWidth > width ) {
+            if(srcWidth > srcHeight) {
+                sampleSize = Math.round(srcHeight / height);
+            } else {
+                sampleSize = Math.round(srcWidth / width);
+            }
+        }
+        BitmapFactory.Options scaledOptions = new BitmapFactory.Options(); scaledOptions.inSampleSize = sampleSize;
+        return BitmapFactory.decodeFile(path, scaledOptions);
+    }
+
 }
 
 
