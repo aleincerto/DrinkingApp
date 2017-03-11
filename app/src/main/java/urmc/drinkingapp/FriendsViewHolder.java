@@ -39,7 +39,7 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder{
             public void onClick(View v) {
                 Intent intent = new Intent(c, ExpandedProfileActivity.class);
                 intent.putExtra("EMAIL", mUser.getEmail());
-                c.startActivityForResult(intent, 0);
+                c.startActivity(intent);
             }
         });
     }

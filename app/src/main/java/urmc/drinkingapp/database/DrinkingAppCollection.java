@@ -190,6 +190,47 @@ public class DrinkingAppCollection {
 
     }
 
+    //method to query all of the users
+    private DrinkingAppCursorWrapper queryUsersByQuery(String query){
+
+        Cursor cursor = mDatabase.query(
+                DrinkingAppSchema.UserTable.NAME,    // table name
+                null,                                   // which columns; null for all
+                "fullname LIKE ?",           // where clause, e.g. id=?
+                new String[]{
+                        "%"+query+"%"
+                },                              // where arguments
+                null,                                   // group by
+                null,                                   // having
+                null                                    // order by
+        );
+        DrinkingAppCursorWrapper wrapper = new DrinkingAppCursorWrapper(cursor);
+        //cursor.close();
+        return wrapper;
+
+    }
+
+    //method to get all users from the database and return a list
+    public List<User> getAllUsersBasedOnQuery(String query){
+
+        DrinkingAppCursorWrapper wrapper = queryUsersByQuery(query);
+        mUserList = new ArrayList<>();
+
+        try{
+            wrapper.moveToFirst();
+            while (!wrapper.isAfterLast()){
+                User aUser = wrapper.getUserFromDB();
+                mUserList.add(aUser);
+                wrapper.moveToNext();
+            }
+        }
+        finally {
+            wrapper.close();
+        }
+        return mUserList;
+    }
+
+
     //method to get all users from the database and return a list
     public List<User> getAllUsersButMyself(String email){
 

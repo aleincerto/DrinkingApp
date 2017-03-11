@@ -29,5 +29,9 @@
     <string name="friends_string">Friends</string>
     <string name="your_friends_profile_string">Your Friend\'s Profile</string>
     <string name="add_friend_string">Add Friend</string>
+    <string name="search_hint">Search for your friends</string>
+    <string name="result_string">Results</string>
+    <string name="no_results_string">Your search had no matches!</string>
+
 
 </resources>
