@@ -35,6 +35,8 @@
     <string name="create_account_string">Create an account</string>
     <string name="login_string">Login</string>
     <string name="settings_string">Settings</string>
+    <string name="drunk_mode_string">Drunk Mode</string>
+    <string name="drunk_mode_off_string">Drunk Mode Off</string>
 
 
 </resources>

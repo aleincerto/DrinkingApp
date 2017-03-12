@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 
 import mehdi.sakout.fancybuttons.FancyButton;
+import ng.max.slideview.SlideView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
     //private Button mFriends;
     private FancyButton mProfile;
     private FancyButton mFriends;
-    private Switch mDrunkMode;
+    //private Switch mDrunkMode;
+    private SlideView mDrunkMode;
 
 
     @Override
@@ -45,9 +47,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
         mDrunkMode = (Switch) findViewById(R.id.switch_main_activity);
         mDrunkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Intent i = new Intent(MainActivity.this, DrunkModeDefaultActivity.class);
+                startActivity(i);
+            }
+        });
+
+        */
+
+        ((SlideView) findViewById(R.id.switch_main_activity)).setOnSlideCompleteListener(new SlideView.OnSlideCompleteListener() {
+            @Override
+            public void onSlideComplete(SlideView slideView) {
                 Intent i = new Intent(MainActivity.this, DrunkModeDefaultActivity.class);
                 startActivity(i);
             }

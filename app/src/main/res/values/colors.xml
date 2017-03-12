@@ -26,4 +26,5 @@
     <color name="White">#FFF</color>
     <color name="colorPinkOrange">#ff5a5f</color>
     <color name="colorPinkOrangeToggle">#963333</color>
+    <color name="colorBlueSlider">#4285F4</color>
 </resources>
