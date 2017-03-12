@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import mehdi.sakout.fancybuttons.FancyButton;
 import urmc.drinkingapp.database.DrinkingAppCollection;
 import urmc.drinkingapp.model.User;
 
@@ -30,8 +31,10 @@ import urmc.drinkingapp.model.User;
  */
 public class SignUpFragment extends Fragment {
 
-    private Button mSignUpButton;
-    private Button mCancelButton;
+    //private Button mSignUpButton;
+    //private Button mCancelButton;
+    private FancyButton mSignUpButton;
+    private FancyButton mCancelButton;
     private EditText mNameEditText;
     private EditText mLastNameEditText;
     private EditText mEmailEditText;
@@ -67,7 +70,8 @@ public class SignUpFragment extends Fragment {
         //getting instance of the database collection
         mCollection = DrinkingAppCollection.get(getContext());
 
-        mCancelButton = (Button)view.findViewById(R.id.button_cancel_sign_up);
+        //mCancelButton = (Button)view.findViewById(R.id.button_cancel_sign_up);
+        mCancelButton = (FancyButton) view.findViewById(R.id.button_cancel_sign_up);
         mNameEditText = (EditText)view.findViewById(R.id.edit_text_name_sign_up);
         mLastNameEditText = (EditText)view.findViewById(R.id.edit_text_last_name_sign_up);
         mEmailEditText = (EditText)view.findViewById(R.id.edit_text_enter_email_sign_up);
@@ -85,7 +89,8 @@ public class SignUpFragment extends Fragment {
             }
         });
 
-        mSignUpButton = (Button)view.findViewById(R.id.button_sign_up_sing_up);
+        //mSignUpButton = (Button)view.findViewById(R.id.button_sign_up_sing_up);
+        mSignUpButton = (FancyButton) view.findViewById(R.id.button_sign_up_sing_up);
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

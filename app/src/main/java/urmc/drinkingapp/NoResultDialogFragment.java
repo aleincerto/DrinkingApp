@@ -1,4 +1,4 @@
-package layout;
+package urmc.drinkingapp;
 
 
 import android.os.Bundle;

@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,6 +20,8 @@
         android:orientation="vertical"
         android:gravity="center">
 
+        <!--
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,12 +30,45 @@
             android:id="@+id/button_change_profile_pic"
             android:layout_gravity="center_horizontal"/>
 
+            -->
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/button_change_profile_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="@color/colorPinkOrange"
+            fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/change_profile_pic_string"
+            fancy:fb_textColor="#FFFFFF" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/image_view_profile_pic_edit_profile"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:src="@drawable/noprofilephoto"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
+
+        <!--
         <ImageView
             android:layout_width="180dp"
             android:layout_height="180dp"
             android:src="@drawable/noprofilephoto"
             android:id="@+id/image_view_profile_pic_edit_profile"
             android:layout_gravity="center_horizontal"/>
+
+            -->
 
         <EditText
             android:layout_width="wrap_content"
@@ -60,6 +96,8 @@
             android:hint="@string/email_hint_string"
             android:layout_gravity="center_horizontal"/>
 
+        <!--
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,6 +105,26 @@
             android:text="@string/ok_string"
             android:layout_gravity="center_horizontal"
             android:id="@+id/button_ok_edit_profile"/>
+
+            -->
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/button_ok_edit_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="@color/colorPinkOrange"
+            fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/ok_string"
+            fancy:fb_textColor="#FFFFFF" />
 
 
     </LinearLayout>

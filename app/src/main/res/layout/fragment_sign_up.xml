@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -50,18 +51,60 @@
         android:layout_below="@id/edit_text_enter_password_sign_up"
         android:layout_centerHorizontal="true">
 
+        <!--
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel_string"
             android:id="@+id/button_cancel_sign_up"/>
 
+            -->
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/button_cancel_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="@color/colorPinkOrange"
+            fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/cancel_string"
+            fancy:fb_textColor="#FFFFFF" />
+
+        <!--
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signup_string"
             android:layout_marginStart="10dp"
             android:id="@+id/button_sign_up_sing_up"/>
+
+            -->
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/button_sign_up_sing_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="@color/colorPinkOrange"
+            fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/signup_string"
+            fancy:fb_textColor="#FFFFFF" />
 
     </LinearLayout>
 

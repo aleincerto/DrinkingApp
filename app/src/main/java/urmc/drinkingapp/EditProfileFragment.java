@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import mehdi.sakout.fancybuttons.FancyButton;
 import urmc.drinkingapp.database.DrinkingAppCollection;
 import urmc.drinkingapp.model.User;
 
@@ -26,9 +27,10 @@ public class EditProfileFragment extends Fragment {
     private ImageView mProfilePicImageView;
     private EditText mFullnameEditText;
     private EditText mEmailEditText;
-    private Button mOkButton;
-    private Button mChangePicButton;
-
+    //private Button mOkButton;
+    //private Button mChangePicButton;
+    private FancyButton mOkButton;
+    private FancyButton mChangePicButton;
     //collection
     private DrinkingAppCollection mCollection;
 
@@ -84,7 +86,8 @@ public class EditProfileFragment extends Fragment {
         }
 
         //ok button to save changes
-        mOkButton = (Button)view.findViewById(R.id.button_ok_edit_profile);
+        //mOkButton = (Button)view.findViewById(R.id.button_ok_edit_profile);
+        mOkButton = (FancyButton) view.findViewById(R.id.button_ok_edit_profile);
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

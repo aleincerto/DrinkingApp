@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import mehdi.sakout.fancybuttons.FancyButton;
 import urmc.drinkingapp.database.DrinkingAppCollection;
 import urmc.drinkingapp.model.User;
 
@@ -31,8 +32,10 @@ public class LoginFragment extends Fragment {
     //widgets
     private EditText mEmailEditText;
     private EditText mPasswordEditText;
-    private Button mSignInButton;
-    private Button mSignUpButton;
+    //private Button mSignInButton;
+    private FancyButton mSignInButton;
+    //private Button mSignUpButton;
+    private FancyButton mSignUpButton;
 
     //email and password for the user logging in
     private String mLoginEmail;
@@ -66,7 +69,8 @@ public class LoginFragment extends Fragment {
         }
 
         //onClick listener for the signIn button - checks for valid login information
-        mSignInButton = (Button)view.findViewById(R.id.button_sign_in);
+        //mSignInButton = (Button)view.findViewById(R.id.button_sign_in);
+        mSignInButton = (FancyButton)view.findViewById(R.id.button_sign_in);
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +108,8 @@ public class LoginFragment extends Fragment {
         });
 
         //listener for the signUp button - checks for validity of information inputted
-        mSignUpButton = (Button)view.findViewById(R.id.button_sign_up);
+        //mSignUpButton = (Button)view.findViewById(R.id.button_sign_up);
+        mSignUpButton = (FancyButton) view.findViewById(R.id.button_sign_up);
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

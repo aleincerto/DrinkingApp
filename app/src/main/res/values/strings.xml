@@ -32,6 +32,9 @@
     <string name="search_hint">Search for your friends</string>
     <string name="result_string">Results</string>
     <string name="no_results_string">Your search had no matches!</string>
+    <string name="create_account_string">Create an account</string>
+    <string name="login_string">Login</string>
+    <string name="settings_string">Settings</string>
 
 
 </resources>

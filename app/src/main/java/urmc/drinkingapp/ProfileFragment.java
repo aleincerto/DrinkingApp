@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import mehdi.sakout.fancybuttons.FancyButton;
 import urmc.drinkingapp.database.DrinkingAppCollection;
 import urmc.drinkingapp.model.User;
 
@@ -30,7 +31,8 @@ public class ProfileFragment extends Fragment {
     private ImageView mProfilePicture;
     private TextView mFullnameTextView;
     private TextView mEmailTextView;
-    private Button mEditProfileButton;
+    //private Button mEditProfileButton;
+    private FancyButton mEditProfileButton;
 
     private DrinkingAppCollection mCollection;
 
@@ -78,7 +80,8 @@ public class ProfileFragment extends Fragment {
 
 
         //starting the EditProfileActivity when EditProfile Button is pressed
-        mEditProfileButton = (Button)view.findViewById(R.id.button_edit_profile);
+        //mEditProfileButton = (Button)view.findViewById(R.id.button_edit_profile);
+        mEditProfileButton = (FancyButton) view.findViewById(R.id.button_edit_profile);
         mEditProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -9,10 +9,14 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 
+import mehdi.sakout.fancybuttons.FancyButton;
+
 public class MainActivity extends AppCompatActivity {
 
-    private Button mProfile;
-    private Button mFriends;
+    //private Button mProfile;
+    //private Button mFriends;
+    private FancyButton mProfile;
+    private FancyButton mFriends;
     private Switch mDrunkMode;
 
 
@@ -21,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mProfile = (Button) findViewById(R.id.button_profile_main_activity);
+        //mProfile = (Button) findViewById(R.id.button_profile_main_activity);
+        mProfile = (FancyButton) findViewById(R.id.button_profile_main_activity);
         mProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -30,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mFriends = (Button) findViewById(R.id.button_friends_main_activity);
+        //mFriends = (Button) findViewById(R.id.button_friends_main_activity);
+        mFriends = (FancyButton) findViewById(R.id.button_friends_main_activity);
         mFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

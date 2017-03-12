@@ -9,13 +9,14 @@
     </style>
 
     <style name="DrinkingTheme" parent="AppTheme">
-        <item name="colorPrimary">@color/colorBlack</item>
+        <item name="colorPrimary">@color/Gray2</item>
 
-        <item name="colorPrimaryDark">@color/Gray1</item>
+        <item name="colorPrimaryDark">@color/colorBlack</item>
 
-        <item name="colorAccent">@color/Gold</item>
+        <item name="colorAccent">@color/White</item>
 
-        <item name="android:colorBackground">@color/wineColor</item>
+        <item name="android:colorBackground">@color/colorPinkOrange</item>
+
 
     </style>
 
@@ -23,6 +24,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
 
     <style name="DrinkingTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

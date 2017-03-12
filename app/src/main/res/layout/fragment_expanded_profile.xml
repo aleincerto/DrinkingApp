@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,12 +37,34 @@
             android:id="@+id/text_view_fullname_profile_expanded_profile_fragment"
             android:layout_gravity="center_horizontal"/>
 
+        <!--
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_friend_string"
             android:layout_gravity="center_horizontal"
             android:id="@+id/button_add_friend_expanded_profile_fragment"/>
+
+            -->
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/button_add_friend_expanded_profile_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="@color/colorPinkOrange"
+            fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/add_friend_string"
+            fancy:fb_textColor="#FFFFFF" />
 
     </LinearLayout>
 

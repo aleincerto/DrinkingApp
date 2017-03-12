@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -18,7 +19,7 @@
         android:id="@+id/switch_main_activity"
         android:fontFamily="sans-serif-medium"
         android:textSize="18sp" />
-
+<!--
     <Button
         android:text="Settings"
         android:layout_width="wrap_content"
@@ -27,6 +28,46 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
+        -->
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/button_settings_main_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/colorPinkOrange"
+        fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="@string/settings_string"
+        fancy:fb_textColor="#FFFFFF" />
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/button_profile_main_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:layout_marginBottom="48dp"
+        android:layout_alignBottom="@+id/button_friends_main_activity"
+        android:layout_centerHorizontal="true"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/colorPinkOrange"
+        fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="@string/profile_title"
+        fancy:fb_textColor="#FFFFFF" />
+
+    <!--
     <Button
         android:text="My Profile"
         android:layout_width="wrap_content"
@@ -35,7 +76,8 @@
         android:layout_marginBottom="48dp"
         android:layout_alignBottom="@+id/button_friends_main_activity"
         android:layout_centerHorizontal="true" />
-
+        -->
+<!--
     <Button
         android:text="Friends"
         android:layout_width="wrap_content"
@@ -44,4 +86,30 @@
         android:layout_centerVertical="true"
         android:layout_alignStart="@+id/button_profile_main_activity"
         android:layout_alignEnd="@+id/button_profile_main_activity" />
+
+        -->
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/button_friends_main_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:layout_marginBottom="48dp"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/button_profile_main_activity"
+        android:layout_alignEnd="@+id/button_profile_main_activity"
+        android:layout_centerHorizontal="true"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/colorPinkOrange"
+        fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="@string/friends_string"
+        fancy:fb_textColor="#FFFFFF" />
+
+
+
 </RelativeLayout>
