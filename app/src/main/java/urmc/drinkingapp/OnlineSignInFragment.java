@@ -1,6 +1,7 @@
 package urmc.drinkingapp;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +11,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -25,8 +32,7 @@ import urmc.drinkingapp.model.User;
 /**
  * A simple {@link Fragment} subclass.
  */
-//Fragment to Log into the app
-public class LoginFragment extends Fragment {
+public class OnlineSignInFragment extends Fragment {
 
     public interface SignUpProcess{
         void SignUpStarted();
@@ -42,22 +48,42 @@ public class LoginFragment extends Fragment {
     //private Button mSignUpButton;
     private FancyButton mSignUpButton;
 
+    private FancyButton mTwitterSignIn;
+    private FancyButton mGoogleSignIn;
+    private FancyButton mFacebookSignIn;
+
+
     //email and password for the user logging in
     private String mLoginEmail;
     private String mLoginPassword;
     private User mLoginUser;
 
-    private DrinkingAppCollection mCollection;
-
-
+    String TAG = "LOGIN PROCEDURE";
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    String TAG = "Login Procedure";
-
-    public LoginFragment() {
+    public OnlineSignInFragment() {
         // Required empty public constructor
+    }
+
+    private ProgressDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setMessage("Loading...");
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 
     @Override
@@ -66,15 +92,20 @@ public class LoginFragment extends Fragment {
         mAuth.addAuthStateListener(mAuthListener);
     }
 
+
     @Override
     public void onStop() {
         super.onStop();
         mAuth.removeAuthStateListener(mAuthListener);
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_online_sign_in, container, false);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -94,30 +125,27 @@ public class LoginFragment extends Fragment {
         };
 
 
-
-
-
-
-
-
-
-
-
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-
-        //getting instance of the database collection
-        mCollection = DrinkingAppCollection.get(getContext());
-
         //wiring up widgets
         mEmailEditText = (EditText)view.findViewById(R.id.edit_text_enter_email);
         mPasswordEditText = (EditText)view.findViewById(R.id.edit_text_enter_password);
+        mTwitterSignIn = (FancyButton)view.findViewById(R.id.button_twitter_online_sign_in);
+        mFacebookSignIn = (FancyButton)view.findViewById(R.id.button_facebook_online_sign_in);
+        mGoogleSignIn = (FancyButton)view.findViewById(R.id.button_gplus_online_sign_in);
+
+        // Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
 
         //getting persisted state
         if (savedInstanceState!=null){
             mEmailEditText.setText(savedInstanceState.getString("EMAIL"));
             mPasswordEditText.setText(savedInstanceState.getString("PASSWORD"));
         }
+
+
 
         //onClick listener for the signIn button - checks for valid login information
         //mSignInButton = (Button)view.findViewById(R.id.button_sign_in);
@@ -141,19 +169,38 @@ public class LoginFragment extends Fragment {
                 else{
                     mLoginEmail = mEmailEditText.getText().toString();
                     mLoginPassword = mPasswordEditText.getText().toString();
-                    mLoginUser = mCollection.getUser(mLoginEmail,mLoginPassword);
-                    if (mLoginUser == null){
-                        Toast.makeText(getActivity(), "Incorrect login information",
-                                Toast.LENGTH_SHORT).show();
-                        mPasswordEditText.setText("");
-                    }
-                    else{
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        DrinkingAppCollection.mMainUser = mLoginUser;
-                        //intent.putExtra("EMAIL", mLoginEmail);
-                        //intent.putExtra("PASSWORD", mLoginPassword);
-                        getActivity().startActivity(intent);
-                    }
+
+
+                    showProgressDialog();
+
+                    mAuth.signInWithEmailAndPassword(mLoginEmail, mLoginPassword)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                                    hideProgressDialog();
+
+                                    // If sign in fails, display a message to the user. If sign in succeeds
+                                    // the auth state listener will be notified and logic to handle the
+                                    // signed in user can be handled in the listener.
+                                    if (!task.isSuccessful()) {
+                                        Log.w(TAG, "signInWithEmail", task.getException());
+                                        Toast.makeText(getActivity().getBaseContext(), "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    else{
+                                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                                        DrinkingAppCollection.mMainUser = mLoginUser;
+                                        //intent.putExtra("EMAIL", mLoginEmail);
+                                        //intent.putExtra("PASSWORD", mLoginPassword);
+                                        startActivity(intent);
+                                    }
+                                }
+                            });
+
+
+
                 }
             }
         });
@@ -168,8 +215,11 @@ public class LoginFragment extends Fragment {
             }
         });
 
+
         return view;
     }
+
+    
 
     @Override
     public void onAttach(Context context) {

@@ -8,7 +8,8 @@ import android.os.Bundle;
 public class EditProfileActivity extends AppCompatActivity {
 
     //instance of the fragment
-    private EditProfileFragment mEditProfileFragment;
+    //private EditProfileFragment mEditProfileFragment;
+    private OnlineEditProfileFragment mEditProfileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,11 +19,13 @@ public class EditProfileActivity extends AppCompatActivity {
         //gets extras coming from the profile activity - user's email - and sets it to the fragment
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        mEditProfileFragment = new EditProfileFragment();
+        //mEditProfileFragment = new EditProfileFragment();
+        mEditProfileFragment = new OnlineEditProfileFragment();
         mEditProfileFragment.setArguments(extras);
         //onSavedInstanceState standard procedure
         if (savedInstanceState!=null){
-            mEditProfileFragment = (EditProfileFragment) getSupportFragmentManager().getFragment(savedInstanceState,"FRAGMENT");
+            //mEditProfileFragment = (EditProfileFragment) getSupportFragmentManager().getFragment(savedInstanceState,"FRAGMENT");
+            mEditProfileFragment = (OnlineEditProfileFragment) getSupportFragmentManager().getFragment(savedInstanceState,"FRAGMENT");
         }
         FragmentManager fm = getSupportFragmentManager();
         fm.beginTransaction()

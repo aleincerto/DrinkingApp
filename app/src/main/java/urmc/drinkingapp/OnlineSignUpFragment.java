@@ -1,25 +1,16 @@
 package urmc.drinkingapp;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,6 +19,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import urmc.drinkingapp.database.DrinkingAppCollection;
@@ -37,7 +33,7 @@ import urmc.drinkingapp.model.User;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SignUpFragment extends Fragment {
+public class OnlineSignUpFragment extends Fragment {
 
     //private Button mSignUpButton;
     //private Button mCancelButton;
@@ -54,13 +50,12 @@ public class SignUpFragment extends Fragment {
     private String mLoginLastName;
     private User mLoginUser;
 
-    private DrinkingAppCollection mCollection;
-    private LoginActivity mActivity;
-
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     String TAG = "SIGN UP PROCEDURE";
+
+    private DatabaseReference mDatabase;
+
 
     public interface SignUpProcessCancel{
         void SignUpCancel();
@@ -69,7 +64,7 @@ public class SignUpFragment extends Fragment {
     private SignUpProcessCancel mListener;
 
 
-    public SignUpFragment() {
+    public OnlineSignUpFragment() {
         // Required empty public constructor
     }
 
@@ -87,13 +82,36 @@ public class SignUpFragment extends Fragment {
         }
     }
 
+    private ProgressDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setMessage("Loading...");
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
+        View view = inflater.inflate(R.layout.fragment_online_sign_up, container, false);
+
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -109,9 +127,6 @@ public class SignUpFragment extends Fragment {
                 // ...
             }
         };
-
-        //getting instance of the database collection
-        mCollection = DrinkingAppCollection.get(getContext());
 
         //mCancelButton = (Button)view.findViewById(R.id.button_cancel_sign_up);
         mCancelButton = (FancyButton) view.findViewById(R.id.button_cancel_sign_up);
@@ -165,15 +180,15 @@ public class SignUpFragment extends Fragment {
                     mLoginPassword = mPasswordEditText.getText().toString();
                     mLoginName = mNameEditText.getText().toString();
                     mLoginLastName = mLastNameEditText.getText().toString();
+                    
+                    showProgressDialog();
 
-
-                    /*
                     mAuth.createUserWithEmailAndPassword(mLoginEmail, mLoginPassword)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
+                                    hideProgressDialog();
                                     // If sign in fails, display a message to the user. If sign in succeeds
                                     // the auth state listener will be notified and logic to handle the
                                     // signed in user can be handled in the listener.
@@ -181,6 +196,15 @@ public class SignUpFragment extends Fragment {
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(getActivity().getApplicationContext(), "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
+                                    } else {
+
+                                        onAuthSuccess(task.getResult().getUser(),mLoginName+" "+mLoginLastName);
+                                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                                        //DrinkingAppCollection.mMainUser = signUpUser;
+                                        //intent.putExtra("EMAIL", mLoginEmail);
+                                        //intent.putExtra("PASSWORD", mLoginPassword);
+                                        getActivity().startActivity(intent);
+                                        getActivity().finish();
                                     }
 
                                     // ...
@@ -188,50 +212,6 @@ public class SignUpFragment extends Fragment {
                             });
 
 
-                    */
-
-
-
-
-
-
-
-
-
-
-
-
-                    mLoginEmail = mEmailEditText.getText().toString();
-                    mLoginPassword = mPasswordEditText.getText().toString();
-                    mLoginName = mNameEditText.getText().toString();
-                    mLoginLastName = mLastNameEditText.getText().toString();
-                    mLoginUser = mCollection.getUser(mLoginEmail, mLoginPassword);
-                    User mLoginUser2 = mCollection.getUser(mLoginEmail);
-                    if (mLoginUser != null){
-                        Toast.makeText(getActivity(), "User already exists",
-                                Toast.LENGTH_SHORT).show();
-                        mPasswordEditText.setText("");
-                        mEmailEditText.setText("");
-                    }
-                    else if (mLoginUser2 != null){
-                        Toast.makeText(getActivity(), "Email already being used",
-                                Toast.LENGTH_SHORT).show();
-                        mPasswordEditText.setText("");
-                        mEmailEditText.setText("");
-                    }
-                    else{
-                        User signUpUser = new User();
-                        signUpUser.setEmail(mLoginEmail);
-                        signUpUser.setPassword(mLoginPassword);
-                        signUpUser.setFullname(mLoginName + " " + mLoginLastName);
-                        mCollection.addUser(signUpUser);
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        DrinkingAppCollection.mMainUser = signUpUser;
-                        //intent.putExtra("EMAIL", mLoginEmail);
-                        //intent.putExtra("PASSWORD", mLoginPassword);
-
-                        getActivity().startActivity(intent);
-                    }
                 }
             }
         });
@@ -241,10 +221,25 @@ public class SignUpFragment extends Fragment {
         return view;
     }
 
+    private void onAuthSuccess(FirebaseUser user, String name) {
+        // Write new user
+        writeNewUser(user.getUid(), name, user.getEmail());
+    }
+
+    // [START basic_write]
+    private void writeNewUser(String userId, String name, String email) {
+        User user = new User();
+        user.setEmail(email);
+        user.setFullname(name);
+
+        mDatabase.child("users").child(userId).setValue(user);
+    }
+    // [END basic_write]
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mListener = (SignUpFragment.SignUpProcessCancel)context;
+        mListener = (OnlineSignUpFragment.SignUpProcessCancel)context;
 
     }
 

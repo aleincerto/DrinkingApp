@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.Switch;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import ng.max.slideview.SlideView;
@@ -21,11 +19,21 @@ public class MainActivity extends AppCompatActivity {
     //private Switch mDrunkMode;
     private SlideView mDrunkMode;
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "test");
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Alessandro Incerto");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         //mProfile = (Button) findViewById(R.id.button_profile_main_activity);
         mProfile = (FancyButton) findViewById(R.id.button_profile_main_activity);
@@ -42,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         mFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, FriendsActivity.class);
+                //Intent i = new Intent(MainActivity.this, FriendsActivity.class);
+                Intent i = new Intent(MainActivity.this, FriendsFullScreenSearchActivity.class);
                 startActivity(i);
             }
         });

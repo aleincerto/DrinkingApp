@@ -31,9 +31,10 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder{
         mUserName = (TextView)view.findViewById(R.id.text_view_friend_name_friends_view_holder);
 
         final AppCompatActivity c = (AppCompatActivity)view.getContext();
-        mCollection = DrinkingAppCollection.get(c);
+        //mCollection = DrinkingAppCollection.get(c);
 
         //when an item in the recyclerView is pressed the ExpandedProfileActivity is launched
+        /*
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +42,7 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder{
                 intent.putExtra("EMAIL", mUser.getEmail());
                 c.startActivity(intent);
             }
-        });
+        });*/
     }
 
     //bind a user to the viewHolder

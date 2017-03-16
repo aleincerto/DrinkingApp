@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="urmc.drinkingapp.LoginActivity"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_gravity="center"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        android:src="@drawable/wine1"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frame_layout_login_activity"
+        android:animateLayoutChanges="true">
+
+    </FrameLayout>
+
+</LinearLayout>

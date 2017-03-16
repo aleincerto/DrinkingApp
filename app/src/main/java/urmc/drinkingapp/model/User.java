@@ -16,17 +16,22 @@ public class User {
     private String mFullname;
     private String mPassword;
     private String mEmail;
-    private String mProfilePic;
+    private String mProfilePic = "none";
 
     private UUID mID;
     public static boolean firstTime = true;
 
+    public User() {
+        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
+
+    /*
     //constructor
     public User(){
         mID = UUID.randomUUID();
         mProfilePic = "none";
 
-    }
+    }*/
 
     /* Getters and Setters*/
 

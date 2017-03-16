@@ -1,16 +1,24 @@
 package urmc.drinkingapp;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.List;
 
@@ -27,12 +35,16 @@ public class FriendsFragment extends Fragment {
     //instance of the recylcer view
     private RecyclerView mRecyclerView;
 
-    private DrinkingAppCollection mCollection;
-    private FriendsAdapter mAdapter;
+    //private DrinkingAppCollection mCollection;
+    private FirebaseRecyclerAdapter mAdapter;
 
     private Context mContext;
 
     private String mQuery;
+
+    // [START declare_database_ref]
+    private DatabaseReference mDatabase;
+    // [END declare_database_ref]
 
     //private NoResultsProcess mListener;
 
@@ -44,6 +56,25 @@ public class FriendsFragment extends Fragment {
         void NoResultStarted();
     }
 
+    private ProgressDialog mProgressDialog;
+
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mProgressDialog.setMessage("Loading...");
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,13 +82,15 @@ public class FriendsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
-
+        // [START initialize_database_ref]
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        // [END initialize_database_ref]
 
 
         mContext = getActivity();
 
         //gets the database collection
-        mCollection = DrinkingAppCollection.get(mContext);
+        //mCollection = DrinkingAppCollection.get(mContext);
 
         //sets up the recycler view
         mRecyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_friends);
@@ -68,14 +101,71 @@ public class FriendsFragment extends Fragment {
         Bundle args = getArguments();
         if(args!=null){
             mQuery = args.getString("QUERY");
-            UpdateUI(mQuery);
+            OnlineUpdateUI(doMySearch(mQuery));
         }else {
-            UpdateUI();
+            OnlineUpdateUI();
         }
 
         return view;
     }
 
+    public Query getQuery(DatabaseReference databaseReference) {
+        // All my users
+
+        Query q = databaseReference.child("users");
+        Log.d("QUERY",q.toString());
+        return q;
+    }
+
+    public String getUid() {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
+    public void OnlineUpdateUI(){
+        mAdapter = new FirebaseRecyclerAdapter<User, FriendsViewHolder>(User.class, R.layout.friends_view_holder, FriendsViewHolder.class, getQuery(mDatabase)) {
+            @Override
+            public void populateViewHolder(FriendsViewHolder FriendProfileHolder, User user, int position) {
+                FriendProfileHolder.bindUser(user);
+            }
+        };
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public void OnlineUpdateUI(Query query){
+        showProgressDialog();
+        mAdapter = new FirebaseRecyclerAdapter<User, FriendsViewHolder>(User.class, R.layout.friends_view_holder, FriendsViewHolder.class, query) {
+            @Override
+            public void populateViewHolder(FriendsViewHolder FriendProfileHolder, User user, int position) {
+                FriendProfileHolder.bindUser(user);
+                hideProgressDialog();
+
+                final DatabaseReference postRef = getRef(position);
+
+                // Set click listener for the whole post view
+                final String postKey = postRef.getKey();
+                FriendProfileHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Launch PostDetailActivity
+                        Intent intent = new Intent(getActivity(), ExpandedProfileActivity.class);
+                        intent.putExtra("KEY", postKey);
+                        startActivity(intent);
+                    }
+                });
+            }
+        };
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public Query doMySearch(String queryText){
+        return mDatabase.child("users")
+                .orderByChild("fullname")
+                .startAt(queryText)
+                .endAt(queryText+"\uf8ff");
+
+    }
+
+    /*
     //sets the adapter and updates the UI
     public void UpdateUI(){
         mCollection = DrinkingAppCollection.get(getActivity());
@@ -109,12 +199,13 @@ public class FriendsFragment extends Fragment {
             mAdapter.notifyDataSetChanged();
         }}
 
-    }
+    }*/
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         //mListener = (NoResultsProcess) context;
     }
+
 
 }

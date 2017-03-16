@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class FriendsSearchableActivity extends AppCompatActivity implements FriendsFragment.NoResultsProcess {
 
@@ -21,7 +22,7 @@ public class FriendsSearchableActivity extends AppCompatActivity implements Frie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_searchable);
 
-
+        Log.d("SEARCHABLE ACTIVITY","ON CREATE");
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
@@ -45,6 +46,17 @@ public class FriendsSearchableActivity extends AppCompatActivity implements Frie
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mFriendsFragment.UpdateUI();
+        //mFriendsFragment.UpdateUI();
+        mFriendsFragment.OnlineUpdateUI();
     }
+
+/*
+    @Override
+    public void onBackPressed() {
+        //Intent i = new Intent(FriendsSearchableActivity.this, FriendsFullScreenSearchActivity.class);
+        //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //startActivity(i);
+        finish();
+    }
+    */
 }
