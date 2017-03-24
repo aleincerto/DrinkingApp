@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import mehdi.sakout.fancybuttons.FancyButton;
 import urmc.drinkingapp.database.DrinkingAppCollection;
 import urmc.drinkingapp.model.User;
 
@@ -18,8 +19,9 @@ import urmc.drinkingapp.model.User;
 public class FriendsViewHolder extends RecyclerView.ViewHolder{
 
     //widgets
-    private ImageView mProfilePic;
-    private TextView mUserName;
+    public ImageView mProfilePic;
+    public TextView mUserName;
+    public FancyButton mAddFriendButton;
 
     private User mUser;
     private DrinkingAppCollection mCollection;
@@ -29,6 +31,7 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder{
         super(view);
         mProfilePic = (ImageView)view.findViewById(R.id.image_view_profile_pic_friends_view_holder);
         mUserName = (TextView)view.findViewById(R.id.text_view_friend_name_friends_view_holder);
+        mAddFriendButton = (FancyButton) view.findViewById(R.id.button_add_friend_view_holder);
 
         final AppCompatActivity c = (AppCompatActivity)view.getContext();
         //mCollection = DrinkingAppCollection.get(c);

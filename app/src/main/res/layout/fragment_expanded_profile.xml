@@ -61,6 +61,7 @@
             fancy:fb_borderColor="#FFFFFF"
             fancy:fb_borderWidth="1dp"
             fancy:fb_defaultColor="@color/colorPinkOrange"
+            fancy:fb_disabledTextColor="@color/colorBlack"
             fancy:fb_focusColor="@color/colorPinkOrangeToggle"
             fancy:fb_radius="30dp"
             fancy:fb_text="@string/add_friend_string"

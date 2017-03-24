@@ -10,13 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+
+import urmc.drinkingapp.model.User;
 
 /**
  * This class is a generic way of backing an RecyclerView with a Firebase location.
@@ -129,6 +135,40 @@ public abstract class FirebaseRecyclerAdapter<T, VH extends RecyclerView.ViewHol
         return parseSnapshot(mSnapshots.getItem(position));
     }
 
+    public DatabaseReference mUserReference;
+    public User mFriend = new User();
+    public User getUserFromSnapshot(DataSnapshot snapshot){
+
+        String key = snapshot.getKey();
+        // Initialize Database
+        mUserReference = FirebaseDatabase.getInstance().getReference()
+                .child("users").child(key);
+
+        //showProgressDialog();
+        mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get user value
+                Log.d("PROFILE",dataSnapshot.toString());
+                mFriend = dataSnapshot.getValue(User.class);
+                //hideProgressDialog();
+                // [START_EXCLUDE]
+                if (mFriend == null) {
+                    // User is null, error out
+                    Log.e("FriendsTAB", "User is unexpectedly null");
+                }
+                // [END_EXCLUDE]
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("FriendsTAB", "getUser:onCancelled", databaseError.toException());
+            }
+        });
+        //Log.d("SNAP",mFriend.getFullname());
+        return mFriend;
+    }
+
     /**
      * This method parses the DataSnapshot into the requested type. You can override it in subclasses
      * to do custom parsing.
@@ -137,6 +177,11 @@ public abstract class FirebaseRecyclerAdapter<T, VH extends RecyclerView.ViewHol
      * @return the model extracted from the DataSnapshot
      */
     protected T parseSnapshot(DataSnapshot snapshot) {
+        Log.d("SNAP",snapshot.toString());
+        if (snapshot.getValue() instanceof Boolean){
+            T user = (T)getUserFromSnapshot(snapshot);
+            return user;
+        }
         Log.d("SNAP",snapshot.toString());
         return snapshot.getValue(mModelClass);
     }

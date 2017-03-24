@@ -53,13 +53,16 @@
         <activity android:name=".FriendsActivity">
 
             <!-- enable the search dialog to send searches to SearchableActivity -->
+            <!--
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".FriendsSearchableActivity" />
+                -->
         </activity>
         <activity android:name=".ExpandedProfileActivity" />
-        <activity android:name=".FriendsSearchableActivity"
-            android:launchMode="singleTop" >
+        <activity
+            android:name=".FriendsSearchableActivity"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -75,9 +78,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FriendsFullScreenSearchActivity"
-            android:launchMode="singleTop" >
+        <activity
+            android:name=".FriendsFullScreenSearchActivity"
+            android:launchMode="singleTop">
+
             <!-- enable the search dialog to send searches to SearchableActivity -->
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".FriendsSearchableActivity" />
+        </activity>
+        <activity android:name=".FriendsViewPagerActivity">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".FriendsSearchableActivity" />

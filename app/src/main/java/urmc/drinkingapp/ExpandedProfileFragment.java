@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+import mehdi.sakout.fancybuttons.FancyButton;
 import urmc.drinkingapp.database.DrinkingAppCollection;
 import urmc.drinkingapp.model.User;
 
@@ -46,9 +48,11 @@ public class ExpandedProfileFragment extends Fragment {
     //widgets
     private ImageView mProfilePicture;
     private TextView mFullnameTextView;
+    private FancyButton mAddFriendButton;
 
     private User mUser;
     private String mKey;
+    private boolean mAreWeFriends;
 
     final String TAG = "EXPANDED PROFILE";
 
@@ -57,6 +61,7 @@ public class ExpandedProfileFragment extends Fragment {
     // [END declare_database_ref]
 
     private DatabaseReference mUserReference;
+    private DatabaseReference mFriendReference;
 
 
     public ExpandedProfileFragment() {
@@ -148,6 +153,72 @@ public class ExpandedProfileFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+            }
+        });
+
+
+        mAddFriendButton = (FancyButton) view.findViewById(R.id.button_add_friend_expanded_profile_fragment);
+        mFriendReference = FirebaseDatabase.getInstance().getReference()
+                .child("users").child(getUid()).child("friends").child(mKey);
+
+        showProgressDialog();
+        mFriendReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get user value
+                Log.d("DISABLED BUTTON",dataSnapshot.toString());
+                if (dataSnapshot.getValue()==null){
+                    mAreWeFriends = false;
+                }else {
+                    mAreWeFriends = dataSnapshot.getValue(Boolean.class);
+                }
+                hideProgressDialog();
+                // [START_EXCLUDE]
+                if (mAreWeFriends) {
+                    mAddFriendButton.setText("Delete Friend");
+                    mAddFriendButton.setBackgroundColor(Color.parseColor("#ffffff"));
+                    mAddFriendButton.setTextColor(Color.parseColor("#000000"));
+                    //mAddFriendButton.setEnabled(false);
+                    /*
+                    // User is null, error out
+                    Log.e(TAG, "User is unexpectedly null");
+                    Toast.makeText(getActivity(),
+                            "Error: could not fetch user.",
+                            Toast.LENGTH_SHORT).show();*/
+
+                } else {
+                    Log.d(TAG, "We are not friends");
+                }
+
+                // [END_EXCLUDE]
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+            }
+        });
+
+
+        mAddFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAreWeFriends){
+                    //mDatabase.child("users").child(getUid()).child("friends").child(mKey).setValue(false);
+                    mDatabase.child("users").child(getUid()).child("friends").child(mKey).removeValue();
+                    mAddFriendButton.setText("Add Friend");
+                    mAreWeFriends = false;
+                    mAddFriendButton.setBackgroundColor(Color.parseColor("#ff5a5f"));
+                    mAddFriendButton.setTextColor(Color.parseColor("#ffffff"));
+                }else{
+                    mDatabase.child("users").child(getUid()).child("friends").child(mKey).setValue(true);
+                    mAddFriendButton.setText("Delete Friend");
+                    mAreWeFriends = true;
+                    mAddFriendButton.setBackgroundColor(Color.parseColor("#ffffff"));
+                    mAddFriendButton.setTextColor(Color.parseColor("#000000"));
+                }
+
+                //mAddFriendButton.setEnabled(false);
             }
         });
 

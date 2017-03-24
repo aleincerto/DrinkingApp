@@ -29,7 +29,7 @@
     <string name="friends_string">Friends</string>
     <string name="your_friends_profile_string">Your Friend\'s Profile</string>
     <string name="add_friend_string">Add Friend</string>
-    <string name="search_hint">Search for your friends</string>
+    <string name="search_hint">Search for friends</string>
     <string name="result_string">Results</string>
     <string name="no_results_string">Your search had no matches!</string>
     <string name="create_account_string">Create an account</string>
@@ -37,6 +37,9 @@
     <string name="settings_string">Settings</string>
     <string name="drunk_mode_string">Drunk Mode</string>
     <string name="drunk_mode_off_string">Drunk Mode Off</string>
+
+    <string name="heading_search_friends">Search for Friends</string>
+    <string name="heading_friends">My Friends</string>
 
 
 </resources>

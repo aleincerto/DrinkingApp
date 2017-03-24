@@ -3,6 +3,8 @@ package urmc.drinkingapp.model;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**

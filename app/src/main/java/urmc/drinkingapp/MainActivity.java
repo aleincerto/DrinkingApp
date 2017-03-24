@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Intent i = new Intent(MainActivity.this, FriendsActivity.class);
-                Intent i = new Intent(MainActivity.this, FriendsFullScreenSearchActivity.class);
+                //Intent i = new Intent(MainActivity.this, FriendsFullScreenSearchActivity.class);
+                Intent i = new Intent(MainActivity.this, FriendsViewPagerActivity.class);
                 startActivity(i);
             }
         });

@@ -2,19 +2,19 @@ package urmc.drinkingapp;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -24,18 +24,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-import java.util.List;
-
-import urmc.drinkingapp.R;
-import urmc.drinkingapp.database.DrinkingAppCollection;
 import urmc.drinkingapp.model.User;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-//fragment hosting the recycler view of users
-public class FriendsFragment extends Fragment {
+public class MyFriendsTabFragment extends Fragment {
 
     //instance of the recylcer view
     private RecyclerView mRecyclerView;
@@ -43,25 +38,15 @@ public class FriendsFragment extends Fragment {
     //private DrinkingAppCollection mCollection;
     private FirebaseRecyclerAdapter mAdapter;
 
-    private Context mContext;
-
-    private String mQuery;
-
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
     private DatabaseReference mFriendReference;
+    public DatabaseReference mUserReference;
 
-    private boolean mAreWeFriends;
 
-    //private NoResultsProcess mListener;
-
-    public FriendsFragment() {
+    public MyFriendsTabFragment() {
         // Required empty public constructor
-    }
-
-    public interface NoResultsProcess{
-        void NoResultStarted();
     }
 
     private ProgressDialog mProgressDialog;
@@ -88,64 +73,38 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_friends, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_my_friends_tab, container, false);
 
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-
-        mContext = getActivity();
-
-        //gets the database collection
-        //mCollection = DrinkingAppCollection.get(mContext);
-
         //sets up the recycler view
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_friends);
+        mRecyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_my_friends);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
-        //getting arguments being passed - email of the user to be displayed
-        Bundle args = getArguments();
-        if(args!=null){
-            mQuery = args.getString("QUERY");
-            OnlineUpdateUI(doMySearch(mQuery));
-        }else {
-            OnlineUpdateUI();
-        }
+        OnlineUpdateUI();
 
         return view;
-    }
-
-    public Query getQuery(DatabaseReference databaseReference) {
-        // All my users
-
-        Query q = databaseReference.child("users");
-        Log.d("QUERY",q.toString());
-        return q;
     }
 
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
+    public Query getQuery(DatabaseReference databaseReference) {
+        // All my friends
+        Query q = databaseReference.child("users").child(getUid()).child("friends");
+        Log.d("QUERY",q.toString());
+        return q;
+    }
+
     public void OnlineUpdateUI(){
+        showProgressDialog();
         mAdapter = new FirebaseRecyclerAdapter<User, FriendsViewHolder>(User.class, R.layout.friends_view_holder, FriendsViewHolder.class, getQuery(mDatabase)) {
             @Override
             public void populateViewHolder(FriendsViewHolder FriendProfileHolder, User user, int position) {
-                FriendProfileHolder.bindUser(user);
-            }
-        };
-        mRecyclerView.setAdapter(mAdapter);
-    }
-
-    public void OnlineUpdateUI(Query query){
-        showProgressDialog();
-        mAdapter = new FirebaseRecyclerAdapter<User, FriendsViewHolder>(User.class, R.layout.friends_view_holder, FriendsViewHolder.class, query) {
-            @Override
-            public void populateViewHolder(FriendsViewHolder FriendProfileHolder, User user, int position) {
-                FriendProfileHolder.bindUser(user);
+                //FriendProfileHolder.bindUser(user);
                 hideProgressDialog();
 
                 final DatabaseReference postRef = getRef(position);
@@ -165,14 +124,38 @@ public class FriendsFragment extends Fragment {
                         // Get user value
                         Log.d("List Dis BUTTON",dataSnapshot.toString());
                         if (dataSnapshot.getValue()==null){
-                            mAreWeFriends = false;
+                            //mAreWeFriends = false;
                         }else {
-                            mAreWeFriends = dataSnapshot.getValue(Boolean.class);
+                            //mAreWeFriends = dataSnapshot.getValue(Boolean.class);
                             if (dataSnapshot.getValue(Boolean.class)){
                                 myView.mAddFriendButton.setText("-");
                                 myView.mAddFriendButton.setBackgroundColor(Color.parseColor("#ffffff"));
                                 myView.mAddFriendButton.setTextColor(Color.parseColor("#000000"));
                             }
+
+
+
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("users").child(postKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    User user = dataSnapshot.getValue(User.class);
+                                    if (mFriend == null) {
+                                        // User is null, error out
+                                        Log.e("FriendsTAB", "User is unexpectedly null");
+                                        Toast.makeText(getActivity(),
+                                                "Error: could not fetch user.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        myView.bindUser(user);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.w("FriendsTAB", "getUser:onCancelled", databaseError.toException());
+                                }
+                            });
                         }
                         hideProgressDialog();
                         // [START_EXCLUDE]
@@ -212,7 +195,7 @@ public class FriendsFragment extends Fragment {
                                     myView.mAddFriendButton.setBackgroundColor(Color.parseColor("#ffffff"));
                                     myView.mAddFriendButton.setTextColor(Color.parseColor("#000000"));
                                 }else {
-                                    mAreWeFriends = dataSnapshot.getValue(Boolean.class);
+                                    //mAreWeFriends = dataSnapshot.getValue(Boolean.class);
                                     if (dataSnapshot.getValue(Boolean.class)){
                                         //mDatabase.child("users").child(getUid()).child("friends").child(postKey).setValue(false);
                                         mDatabase.child("users").child(getUid()).child("friends").child(postKey).removeValue();
@@ -243,84 +226,39 @@ public class FriendsFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public Query doMySearch(String queryText){
-        return mDatabase.child("users")
-                .orderByChild("fullname")
-                .startAt(queryText)
-                .endAt(queryText+"\uf8ff");
+    public User mFriend;
+    public User getUserFromSnapshot(DataSnapshot snapshot){
+        String key = snapshot.getKey();
+        // Initialize Database
+        mUserReference = FirebaseDatabase.getInstance().getReference()
+                .child("users").child(key);
 
-    }
-
-    /*
-    //sets the adapter and updates the UI
-    public void UpdateUI(){
-        mCollection = DrinkingAppCollection.get(getActivity());
-        List<User> users = mCollection.getAllUsersButMyself(mCollection.mMainUser.getEmail());
-        if (mAdapter == null){
-            mAdapter = new FriendsAdapter(users);
-            mRecyclerView.setAdapter(mAdapter);
-        } else {
-            mAdapter.setUsers(users);
-            mAdapter.notifyDataSetChanged();
-        }
-
-    }
-
-    //sets the adapter and updates the UI
-    public void UpdateUI(String Query){
-        mCollection = DrinkingAppCollection.get(getActivity());
-        List<User> users = mCollection.getAllUsersBasedOnQuery(Query);
-        if (users.isEmpty()){
-            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-            FragmentManager manager = getFragmentManager();
-            NoResultsDialog dialog = NoResultsDialog.newInstance();
-            dialog.show(manager, "NoResultsDialog");
-            //mListener.NoResultStarted();
-        }else{
-        if (mAdapter == null){
-            mAdapter = new FriendsAdapter(users);
-            mRecyclerView.setAdapter(mAdapter);
-        } else {
-            mAdapter.setUsers(users);
-            mAdapter.notifyDataSetChanged();
-        }}
-
-    }*/
-
-    public void isFriend(String key){
-        final String myKey = key;
-        mFriendReference = FirebaseDatabase.getInstance().getReference()
-                .child("users").child(getUid()).child("friends").child(key);
         showProgressDialog();
-        mFriendReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get user value
-                Log.d("List Dis BUTTON",dataSnapshot.toString());
-                if (dataSnapshot.getValue()==null){
-                    mAreWeFriends = false;
-                }else {
-                    mAreWeFriends = dataSnapshot.getValue(Boolean.class);
-                }
+                Log.d("PROFILE",dataSnapshot.toString());
+                mFriend = dataSnapshot.getValue(User.class);
                 hideProgressDialog();
                 // [START_EXCLUDE]
+                if (mFriend == null) {
+                    // User is null, error out
+                    Log.e("FriendsTAB", "User is unexpectedly null");
+                    Toast.makeText(getActivity(),
+                            "Error: could not fetch user.",
+                            Toast.LENGTH_SHORT).show();
+                }
                 // [END_EXCLUDE]
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("IsFrList", "getUser:onCancelled", databaseError.toException());
+                Log.w("FriendsTAB", "getUser:onCancelled", databaseError.toException());
             }
         });
+        return mFriend;
     }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        //mListener = (NoResultsProcess) context;
-    }
-
 
 
 
