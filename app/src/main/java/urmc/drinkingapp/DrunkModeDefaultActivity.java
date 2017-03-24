@@ -24,6 +24,7 @@ import android.support.v4.content.ContextCompat;
 
 
 
+
 public class
 DrunkModeDefaultActivity extends AppCompatActivity {
     private FancyButton settingsButton;
@@ -38,7 +39,6 @@ DrunkModeDefaultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drunk_mode_default);
-        Toast.makeText(DrunkModeDefaultActivity.this, "DOES THIS SHOW UP?" , Toast.LENGTH_LONG);
 
             phoneNo = getIntent().getStringExtra("PHONE_NUMBER_TEXT");
             message = getIntent().getStringExtra("MESSAGE_TEXT");
@@ -63,10 +63,10 @@ DrunkModeDefaultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(DrunkModeDefaultActivity.this, "Calling" , Toast.LENGTH_LONG);
+
                //add something to ask if want to send text then send it
 
-             //   sendSMSMessage();
+                sendSMSMessage();
 
 
 
@@ -113,8 +113,7 @@ DrunkModeDefaultActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(DrunkModeDefaultActivity.this, "Calling" + phoneNoCAB, Toast.LENGTH_LONG);
-                Intent i = new Intent(DrunkModeDefaultActivity.this, SettingsActivity.class);
+              Intent i = new Intent(DrunkModeDefaultActivity.this, SettingsActivity.class);
                 startActivity(i);
 
 
@@ -137,6 +136,7 @@ DrunkModeDefaultActivity extends AppCompatActivity {
     protected void sendSMSMessage() {
 
 
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.SEND_SMS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -150,7 +150,12 @@ DrunkModeDefaultActivity extends AppCompatActivity {
         }
     }
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+
+        Toast.makeText(getApplicationContext(),
+                phoneNo + " here ", Toast.LENGTH_LONG).show();
+
         switch (requestCode) {
+
             case MY_PERMISSIONS_REQUEST_SEND_SMS: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
