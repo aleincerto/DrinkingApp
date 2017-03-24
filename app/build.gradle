@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 'Google Inc.:Google APIs:23'
     buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "urmc.drinkingapp"
@@ -37,6 +37,7 @@ dependencies {
     compile 'com.google.firebase:firebase-database:10.2.0'
     testCompile 'junit:junit:4.12'
 }
+
 
 
 

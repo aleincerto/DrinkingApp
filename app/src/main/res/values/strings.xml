@@ -18,6 +18,13 @@
     <string name="ok_string">OK</string>
     <string name="change_profile_pic_string">Change Picture</string>
 
+
+    <string name="text_string">Text</string>
+    <string name="cab_string">Call a Cab</string>
+    <string name="emergency_string">EMERGENCY</string>
+    <string name="valid_phone_hint_string">Enter a valid phone number</string>
+    <string name="valid_message_hint_string">Enter a message</string>
+
     <string name="B">B</string>
     <string name="A">A</string>
     <string name="C">C</string>

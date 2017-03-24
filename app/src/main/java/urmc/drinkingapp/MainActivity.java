@@ -57,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+
         /*
         mDrunkMode = (Switch) findViewById(R.id.switch_main_activity);
         mDrunkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

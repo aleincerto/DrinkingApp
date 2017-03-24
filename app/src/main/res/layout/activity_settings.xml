@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="urmc.drinkingapp.SettingsActivity">
+
+
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/valid_phone_hint_string"
+
+        android:layout_centerHorizontal="true"
+        android:textColor="#000"
+        android:gravity="center"
+        android:inputType="phone"
+        android:id="@+id/phone_number_editText"/>
+
+
+
+
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/valid_message_hint_string"
+
+        android:layout_centerHorizontal="true"
+        android:textColor="#000"
+
+        android:inputType="textMultiLine"
+        android:layout_below="@id/phone_number_editText"
+        android:id="@+id/message_editText"
+        tools:layout_editor_absoluteY="83dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <RadioGroup
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_cab1"
+            android:textColor="@color/White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="Marketplace Cab" />
+
+        <RadioButton
+            android:id="@+id/radio_cab2"
+            android:textColor="@color/White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="Airport Taxi" />
+
+        <RadioButton
+            android:id="@+id/radio_othercab"
+            android:textColor="@color/White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="Other" />
+
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/other_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter an alternative phone number to call"
+        android:inputType="phone"
+        android:visibility="invisible" />
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/button_settings_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/colorPinkOrange"
+        fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="Save"
+        fancy:fb_textColor="#FFFFFF" />
+
+
+</LinearLayout>
