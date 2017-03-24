@@ -48,14 +48,18 @@ public class SettingsActivity extends AppCompatActivity {
                 if (customnumber ==1){
                     numberforcab= phonenumberforCALLING.getText().toString();
 
+                }else{
+                    phonenumber_to_call = numberforcab;
                 }
 
 
+                Log.d("PHONE NUMBER CALL",phonenumber_to_call);
                 i.putExtra("PHONE_NUMBER_TEXT", phonenumber_to_text);
                 i.putExtra("MESSAGE_TEXT", message_to_text);
-               i.putExtra("PHONE_NUMBER_CALL", phonenumber_to_call);
+                i.putExtra("PHONE_NUMBER_CALL", phonenumber_to_call);
 
                 startActivity(i);
+                finish();
                 //need to add way to save the state
             }
         });
@@ -78,26 +82,27 @@ public class SettingsActivity extends AppCompatActivity {
         boolean checked = ((RadioButton) view).isChecked();
 
 
-
+        Log.d("ONRADIO CLICK",checked+"");
         // Check which radio button was clicked
         switch(view.getId()) {
             case R.id.radio_cab1:
                 if (checked)
-
                 {
                     numberforcab ="5856479970";
+                    Log.d("ONRADIO CLICK",numberforcab);
                     break;
                 }
             case R.id.radio_cab2:
                 if (checked)
                     numberforcab ="5852353333";
+                    Log.d("ONRADIO CLICK",numberforcab);
                     break;
             case R.id.radio_othercab:
                 if (checked)
 
                 {
 
-
+                    Log.d("ONRADIO CLICK",checked+"");
                     phonenumberforCALLING.setVisibility(View.VISIBLE);
                     customnumber=1;
 

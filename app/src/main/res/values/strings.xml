@@ -48,6 +48,7 @@
     <string name="heading_search_friends">Search for Friends</string>
     <string name="heading_friends">My Friends</string>
     <string name="title_activity_maps">Map</string>
+    <string name="location_string">Location</string>
 
 
 </resources>

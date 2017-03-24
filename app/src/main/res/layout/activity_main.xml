@@ -84,6 +84,8 @@
         fancy:fb_text="@string/profile_title"
         fancy:fb_textColor="#FFFFFF" />
 
+
+
     <!--
     <Button
         android:text="My Profile"
