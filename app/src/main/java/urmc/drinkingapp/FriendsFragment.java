@@ -208,6 +208,7 @@ public class FriendsFragment extends Fragment {
                                 Log.d("List Dis BUTTON",dataSnapshot.toString());
                                 if (dataSnapshot.getValue()==null){
                                     mDatabase.child("users").child(getUid()).child("friends").child(postKey).setValue(true);
+                                    mDatabase.child("users").child(postKey).child("friends").child(getUid()).setValue(true);
                                     myView.mAddFriendButton.setText("-");
                                     myView.mAddFriendButton.setBackgroundColor(Color.parseColor("#ffffff"));
                                     myView.mAddFriendButton.setTextColor(Color.parseColor("#000000"));
@@ -216,11 +217,13 @@ public class FriendsFragment extends Fragment {
                                     if (dataSnapshot.getValue(Boolean.class)){
                                         //mDatabase.child("users").child(getUid()).child("friends").child(postKey).setValue(false);
                                         mDatabase.child("users").child(getUid()).child("friends").child(postKey).removeValue();
+                                        mDatabase.child("users").child(postKey).child("friends").child(getUid()).removeValue();
                                         myView.mAddFriendButton.setText("+");
                                         myView.mAddFriendButton.setBackgroundColor(Color.parseColor("#ff5a5f"));
                                         myView.mAddFriendButton.setTextColor(Color.parseColor("#ffffff"));
                                     }else{
                                         mDatabase.child("users").child(getUid()).child("friends").child(postKey).setValue(true);
+                                        mDatabase.child("users").child(postKey).child("friends").child(getUid()).setValue(true);
                                         myView.mAddFriendButton.setText("-");
                                         myView.mAddFriendButton.setBackgroundColor(Color.parseColor("#ffffff"));
                                         myView.mAddFriendButton.setTextColor(Color.parseColor("#000000"));

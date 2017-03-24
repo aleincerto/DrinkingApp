@@ -206,12 +206,14 @@ public class ExpandedProfileFragment extends Fragment {
                 if (mAreWeFriends){
                     //mDatabase.child("users").child(getUid()).child("friends").child(mKey).setValue(false);
                     mDatabase.child("users").child(getUid()).child("friends").child(mKey).removeValue();
+                    mDatabase.child("users").child(mKey).child("friends").child(getUid()).removeValue();
                     mAddFriendButton.setText("Add Friend");
                     mAreWeFriends = false;
                     mAddFriendButton.setBackgroundColor(Color.parseColor("#ff5a5f"));
                     mAddFriendButton.setTextColor(Color.parseColor("#ffffff"));
                 }else{
                     mDatabase.child("users").child(getUid()).child("friends").child(mKey).setValue(true);
+                    mDatabase.child("users").child(mKey).child("friends").child(getUid()).setValue(true);
                     mAddFriendButton.setText("Delete Friend");
                     mAreWeFriends = true;
                     mAddFriendButton.setBackgroundColor(Color.parseColor("#ffffff"));

@@ -83,7 +83,21 @@ public class MyFriendsTabFragment extends Fragment {
         mRecyclerView = (RecyclerView)view.findViewById(R.id.recycler_view_my_friends);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        OnlineUpdateUI();
+        mDatabase.child("users").child(getUid()).child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() == null){
+                    Log.d("FRIENDS",dataSnapshot.toString());
+                }else{
+                    OnlineUpdateUI();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         return view;
     }
@@ -100,11 +114,13 @@ public class MyFriendsTabFragment extends Fragment {
     }
 
     public void OnlineUpdateUI(){
+
         showProgressDialog();
         mAdapter = new FirebaseRecyclerAdapter<User, FriendsViewHolder>(User.class, R.layout.friends_view_holder, FriendsViewHolder.class, getQuery(mDatabase)) {
             @Override
             public void populateViewHolder(FriendsViewHolder FriendProfileHolder, User user, int position) {
                 //FriendProfileHolder.bindUser(user);
+                Log.d("LOAD FRIENDS","Friends Tab");
                 hideProgressDialog();
 
                 final DatabaseReference postRef = getRef(position);
@@ -191,6 +207,7 @@ public class MyFriendsTabFragment extends Fragment {
                                 Log.d("List Dis BUTTON",dataSnapshot.toString());
                                 if (dataSnapshot.getValue()==null){
                                     mDatabase.child("users").child(getUid()).child("friends").child(postKey).setValue(true);
+                                    mDatabase.child("users").child(postKey).child("friends").child(getUid()).setValue(true);
                                     myView.mAddFriendButton.setText("-");
                                     myView.mAddFriendButton.setBackgroundColor(Color.parseColor("#ffffff"));
                                     myView.mAddFriendButton.setTextColor(Color.parseColor("#000000"));
@@ -199,11 +216,13 @@ public class MyFriendsTabFragment extends Fragment {
                                     if (dataSnapshot.getValue(Boolean.class)){
                                         //mDatabase.child("users").child(getUid()).child("friends").child(postKey).setValue(false);
                                         mDatabase.child("users").child(getUid()).child("friends").child(postKey).removeValue();
+                                        mDatabase.child("users").child(postKey).child("friends").child(getUid()).removeValue();
                                         myView.mAddFriendButton.setText("+");
                                         myView.mAddFriendButton.setBackgroundColor(Color.parseColor("#ff5a5f"));
                                         myView.mAddFriendButton.setTextColor(Color.parseColor("#ffffff"));
                                     }else{
                                         mDatabase.child("users").child(getUid()).child("friends").child(postKey).setValue(true);
+                                        mDatabase.child("users").child(postKey).child("friends").child(getUid()).setValue(true);
                                         myView.mAddFriendButton.setText("-");
                                         myView.mAddFriendButton.setBackgroundColor(Color.parseColor("#ffffff"));
                                         myView.mAddFriendButton.setTextColor(Color.parseColor("#000000"));
