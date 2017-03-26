@@ -53,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
 
 
-                Log.d("PHONE NUMBER CALL",phonenumber_to_call);
+
                 i.putExtra("PHONE_NUMBER_TEXT", phonenumber_to_text);
                 i.putExtra("MESSAGE_TEXT", message_to_text);
                 i.putExtra("PHONE_NUMBER_CALL", phonenumber_to_call);
