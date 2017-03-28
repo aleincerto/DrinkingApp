@@ -2,10 +2,12 @@ package urmc.drinkingapp;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +29,7 @@ public class EditProfileFragment extends Fragment {
     private ImageView mProfilePicImageView;
     private EditText mFullnameEditText;
     private EditText mEmailEditText;
-    //private Button mOkButton;
-    //private Button mChangePicButton;
+
     private FancyButton mOkButton;
     private FancyButton mChangePicButton;
     //collection

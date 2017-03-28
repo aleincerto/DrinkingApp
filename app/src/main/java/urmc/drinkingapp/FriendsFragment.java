@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +55,7 @@ public class FriendsFragment extends Fragment {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
     private DatabaseReference mFriendReference;
+    private StorageReference mUserStorageRef;
 
     private boolean mAreWeFriends;
 
@@ -158,7 +163,15 @@ public class FriendsFragment extends Fragment {
 
                 mFriendReference = FirebaseDatabase.getInstance().getReference()
                         .child("users").child(getUid()).child("friends").child(postKey);
+                mUserStorageRef = FirebaseStorage.getInstance().getReference().child(postKey);
+
                 showProgressDialog();
+                if(!user.getProfilePic().equals("none")) {
+                    Glide.with(getActivity() /* context */)
+                            .using(new FirebaseImageLoader())
+                            .load(mUserStorageRef)
+                            .into(myView.mProfilePic);
+                }
                 mFriendReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

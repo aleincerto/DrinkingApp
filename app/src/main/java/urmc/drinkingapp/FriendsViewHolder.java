@@ -52,13 +52,14 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder{
     public void bindUser(User user){
         mUser = user;
 
+        /*
         //set up the picture
         String mPath = user.getProfilePic();
         if (!mPath.matches("none")){
             Bitmap photo = User.getScaledBitmap(mPath, 200, 200);
             mProfilePic.setImageBitmap(photo);
             mProfilePic.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        }
+        }*/
 
         //set all the other attributes
         mUserName.setText(user.getFullname());

@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import urmc.drinkingapp.model.User;
 
@@ -43,6 +47,7 @@ public class MyFriendsTabFragment extends Fragment {
     // [END declare_database_ref]
     private DatabaseReference mFriendReference;
     public DatabaseReference mUserReference;
+    private StorageReference mUserStorageRef;
 
 
     public MyFriendsTabFragment() {
@@ -133,6 +138,7 @@ public class MyFriendsTabFragment extends Fragment {
 
                 mFriendReference = FirebaseDatabase.getInstance().getReference()
                         .child("users").child(getUid()).child("friends").child(postKey);
+                mUserStorageRef = FirebaseStorage.getInstance().getReference().child(postKey);
                 showProgressDialog();
                 mFriendReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -164,6 +170,12 @@ public class MyFriendsTabFragment extends Fragment {
                                                 Toast.LENGTH_SHORT).show();
                                     }else{
                                         myView.bindUser(user);
+                                        if(!user.getProfilePic().equals("none")) {
+                                            Glide.with(getActivity() /* context */)
+                                                    .using(new FirebaseImageLoader())
+                                                    .load(mUserStorageRef)
+                                                    .into(myView.mProfilePic);
+                                        }
                                     }
                                 }
 

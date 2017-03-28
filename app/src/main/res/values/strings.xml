@@ -49,6 +49,7 @@
     <string name="heading_friends">My Friends</string>
     <string name="title_activity_maps">Map</string>
     <string name="location_string">Location</string>
+    <string name="take_picture_string">Take a Photo</string>
 
 
 </resources>

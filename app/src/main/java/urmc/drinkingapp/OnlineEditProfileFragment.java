@@ -3,9 +3,12 @@ package urmc.drinkingapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +19,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import urmc.drinkingapp.database.DrinkingAppCollection;
@@ -42,6 +57,10 @@ public class OnlineEditProfileFragment extends Fragment {
     private FancyButton mOkButton;
     private FancyButton mChangePicButton;
     private TextView mEmailTextView;
+    private StorageReference mStorageRef;
+    private String mPath;
+    private StorageReference mUserStorageRef;
+
 
     private User mUser;
     // [START declare_database_ref]
@@ -72,6 +91,9 @@ public class OnlineEditProfileFragment extends Fragment {
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
+
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        mUserStorageRef = mStorageRef.child(getUid());
 
 
 
@@ -105,9 +127,14 @@ public class OnlineEditProfileFragment extends Fragment {
                             String mPath = mUser.getProfilePic();
 
                             if (!mPath.matches("none")){
+                                // Load the image using Glide
+                                loadPic();
+                                /*
                                 Bitmap photo = getScaledBitmap(mPath, 200, 200);
                                 mProfilePicImageView.setImageBitmap(photo);
+                                */
                                 mProfilePicImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
                             }
                         }
 
@@ -135,14 +162,42 @@ public class OnlineEditProfileFragment extends Fragment {
                 mUser.setFullname(mFullnameEditText.getText().toString());
                 mDatabase.child("users").child(userId).setValue(mUser);
                 mListener.EditProfileOK();
+                if(!mUser.getProfilePic().equals("none")){uploadPic();}
+
                 /*
                 getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();*/
+
+            }
+        });
+
+
+        //onClickListener to change picture - triggers the photoActivity capable of taking pictures
+        mChangePicButton = (FancyButton) view.findViewById(R.id.button_change_profile_pic);
+        mChangePicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("EDITPROFILE","Changing Pic");
+                Intent intent = new Intent(getActivity(), PhotoActivity.class);
+                startActivityForResult(intent,0);
             }
         });
 
 
         return view;
+    }
+
+    //overriding onActivityResult to get info back from the PhotoActivity - sets the new picture
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String path = data.getStringExtra("PATH");
+        mPath = path;
+        mUser.setProfilePic(path);
+        Bitmap photo = getScaledBitmap(path, 200, 200);
+        mProfilePicImageView.setImageBitmap(photo);
+        mProfilePicImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 
 
@@ -163,6 +218,7 @@ public class OnlineEditProfileFragment extends Fragment {
             }
         }
         BitmapFactory.Options scaledOptions = new BitmapFactory.Options(); scaledOptions.inSampleSize = sampleSize;
+
         return BitmapFactory.decodeFile(path, scaledOptions);
     }
 
@@ -171,6 +227,36 @@ public class OnlineEditProfileFragment extends Fragment {
         super.onAttach(context);
         mListener = (OnlineEditProfileFragment.EditProfileFinished)context;
 
+    }
+
+    private void uploadPic(){
+        try {
+            InputStream stream = new FileInputStream(new File(mPath));
+            UploadTask uploadTask = mUserStorageRef.putStream(stream);
+            //uploadTask = mUserStorageRef.putStream(stream);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                    Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                }
+            });
+        }
+        catch (Exception e){
+            Log.d("ONLINEEDIT","File not found");
+        }
+    }
+
+    private void loadPic(){
+        Glide.with(getActivity() /* context */)
+                .using(new FirebaseImageLoader())
+                .load(mUserStorageRef)
+                .into(mProfilePicImageView);
     }
 
 }

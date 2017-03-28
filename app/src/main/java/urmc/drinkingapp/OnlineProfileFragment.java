@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +18,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import urmc.drinkingapp.model.User;
@@ -54,6 +67,7 @@ public class OnlineProfileFragment extends Fragment {
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
+    private StorageReference mUserStorageRef;
 
 
     public String getUid() {return FirebaseAuth.getInstance().getCurrentUser().getUid();}
@@ -93,6 +107,7 @@ public class OnlineProfileFragment extends Fragment {
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
+        mUserStorageRef = FirebaseStorage.getInstance().getReference().child(getUid());
 
         mProfilePicture = (ImageView)view.findViewById(R.id.image_view_profile_pic);
         mFullnameTextView = (TextView)view.findViewById(R.id.text_view_fullname_profile);
@@ -125,8 +140,11 @@ public class OnlineProfileFragment extends Fragment {
                             String mPath = mUser.getProfilePic();
 
                             if (!mPath.matches("none")){
+                                loadPic();
+                                /*
                                 Bitmap photo = getScaledBitmap(mPath, 200, 200);
                                 mProfilePicture.setImageBitmap(photo);
+                                */
                                 mProfilePicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
                             }
                         }
@@ -193,8 +211,11 @@ public class OnlineProfileFragment extends Fragment {
                             String mPath = mUser.getProfilePic();
 
                             if (!mPath.matches("none")){
+                                loadPic();
+                                /*
                                 Bitmap photo = getScaledBitmap(mPath, 200, 200);
                                 mProfilePicture.setImageBitmap(photo);
+                                */
                                 mProfilePicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
                             }
                         }
@@ -233,6 +254,14 @@ public class OnlineProfileFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mListener = (OnlineProfileFragment.EditProfileProcess)context;
+    }
+
+
+    private void loadPic(){
+        Glide.with(getActivity() /* context */)
+                .using(new FirebaseImageLoader())
+                .load(mUserStorageRef)
+                .into(mProfilePicture);
     }
 
 }

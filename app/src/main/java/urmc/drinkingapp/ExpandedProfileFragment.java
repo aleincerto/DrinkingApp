@@ -18,12 +18,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -62,6 +66,7 @@ public class ExpandedProfileFragment extends Fragment {
 
     private DatabaseReference mUserReference;
     private DatabaseReference mFriendReference;
+    private StorageReference mUserStorageRef;
 
 
     public ExpandedProfileFragment() {
@@ -106,6 +111,7 @@ public class ExpandedProfileFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
+
         //get arguments being passed - Key to get the user
         Bundle args = getArguments();
         mKey = args.getString("KEY");
@@ -113,6 +119,8 @@ public class ExpandedProfileFragment extends Fragment {
         // Initialize Database
         mUserReference = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(mKey);
+
+        mUserStorageRef = FirebaseStorage.getInstance().getReference().child(mKey);
 
         //getting the user
         //mUser = mCollection.getUser(mEmail);
@@ -141,8 +149,11 @@ public class ExpandedProfileFragment extends Fragment {
                     String mPath = mUser.getProfilePic();
 
                     if (!mPath.matches("none")){
+                        /*
                         Bitmap photo = getScaledBitmap(mPath, 200, 200);
                         mProfilePicture.setImageBitmap(photo);
+                        */
+                        loadPic();
                         mProfilePicture.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     }
                 }
@@ -245,6 +256,13 @@ public class ExpandedProfileFragment extends Fragment {
         }
         BitmapFactory.Options scaledOptions = new BitmapFactory.Options(); scaledOptions.inSampleSize = sampleSize;
         return BitmapFactory.decodeFile(path, scaledOptions);
+    }
+
+    private void loadPic(){
+        Glide.with(getActivity() /* context */)
+                .using(new FirebaseImageLoader())
+                .load(mUserStorageRef)
+                .into(mProfilePicture);
     }
 
 

@@ -5,16 +5,20 @@
     android:layout_height="wrap_content">
 
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/image_view_profile_pic_friends_view_holder"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:id="@+id/image_view_profile_pic_friends_view_holder"
-        android:src="@drawable/noprofilephoto"/>
+        android:src="@drawable/noprofilephoto"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name_string"
         android:layout_marginStart="10dp"
         android:layout_marginTop="25dp"
         android:layout_toEndOf="@id/image_view_profile_pic_friends_view_holder"

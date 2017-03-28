@@ -7,7 +7,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
         android:allowBackup="true"
@@ -38,8 +40,8 @@
         </activity>
         <activity
             android:name=".DrunkModeDefaultActivity"
-            android:parentActivityName=".MainActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DrunkModeWithFriendActivity"
             android:parentActivityName=".MainActivity" />
@@ -61,7 +63,7 @@
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value=".FriendsSearchableActivity" />
-                -->
+            -->
         </activity>
         <activity android:name=".ExpandedProfileActivity" />
         <activity
@@ -110,8 +112,9 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".SettingsActivity"></activity>
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".PhotoActivity"></activity>
     </application>
 
 </manifest>
