@@ -160,7 +160,8 @@ public class OnlineEditProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mUser.setFullname(mFullnameEditText.getText().toString());
-                mDatabase.child("users").child(userId).setValue(mUser);
+                //mDatabase.child("users").child(userId).setValue(mUser);
+                mDatabase.child("users").child(userId).child("fullname").setValue(mUser.getFullname());
                 mListener.EditProfileOK();
                 if(!mUser.getProfilePic().equals("none")){uploadPic();}
 
@@ -192,12 +193,14 @@ public class OnlineEditProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String path = data.getStringExtra("PATH");
-        mPath = path;
-        mUser.setProfilePic(path);
-        Bitmap photo = getScaledBitmap(path, 200, 200);
-        mProfilePicImageView.setImageBitmap(photo);
-        mProfilePicImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        if (data != null) {
+            String path = data.getStringExtra("PATH");
+            mPath = path;
+            mUser.setProfilePic(path);
+            Bitmap photo = getScaledBitmap(path, 200, 200);
+            mProfilePicImageView.setImageBitmap(photo);
+            mProfilePicImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
     }
 
 

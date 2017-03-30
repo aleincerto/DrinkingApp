@@ -26,13 +26,21 @@ public class FriendsViewPagerActivity extends AppCompatActivity {
             private final Fragment[] mFragments = new Fragment[] {
                     new FullScreenSearchTabFragment(),
                     new MyFriendsTabFragment(),
+                    //new FriendsBuddyTabFragment(),
             };
             private final String[] mFragmentNames = new String[] {
                     getString(R.string.heading_search_friends),
-                    getString(R.string.heading_friends)
+                    getString(R.string.heading_friends),
+                    //getString(R.string.heading_buddies)
             };
             @Override
             public Fragment getItem(int position) {
+                /*
+                if (mFragments[position] instanceof MyFriendsTabFragment){
+                    ((MyFriendsTabFragment)mFragments[position]).updateView();
+                }else if (mFragments[position] instanceof FriendsBuddyTabFragment){
+                    ((FriendsBuddyTabFragment)mFragments[position]).updateView();
+                }*/
                 return mFragments[position];
             }
             @Override
@@ -43,6 +51,21 @@ public class FriendsViewPagerActivity extends AppCompatActivity {
             public CharSequence getPageTitle(int position) {
                 return mFragmentNames[position];
             }
+
+            /*@Override
+            public int getItemPosition(Object object){
+                if (object instanceof MyFriendsTabFragment){
+                    ((MyFriendsTabFragment)object).updateView();
+                }else if (object instanceof FriendsBuddyTabFragment){
+                    ((FriendsBuddyTabFragment)object).updateView();
+                }
+                return super.getItemPosition(object);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return super.getItemId(position);
+            }*/
         };
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);

@@ -47,9 +47,11 @@
 
     <string name="heading_search_friends">Search for Friends</string>
     <string name="heading_friends">My Friends</string>
+    <string name="heading_buddies">My Buddies</string>
     <string name="title_activity_maps">Map</string>
     <string name="location_string">Location</string>
     <string name="take_picture_string">Take a Photo</string>
+    <string name="add_buddy_string">Buddy Up</string>
 
 
 </resources>

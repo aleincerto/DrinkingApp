@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/image_view_profile_pic_friends_view_holder"
+        android:layout_width="70dp"
+        android:layout_height="90dp"
+        android:src="@drawable/noprofilephoto"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="3dp"/>
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="25dp"
+        android:layout_toEndOf="@id/image_view_profile_pic_friends_view_holder"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:id="@+id/text_view_friend_name_friends_view_holder"/>
+
+    <!--
+
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:text="@string/plus_string"
+        android:id="@+id/button_add_friend_view_holder"
+        android:layout_marginTop="15dp"/>
+
+        -->
+
+        <mehdi.sakout.fancybuttons.FancyButton
+            android:id="@+id/button_add_buddy_view_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            fancy:fb_borderColor="#FFFFFF"
+            fancy:fb_borderWidth="1dp"
+            fancy:fb_defaultColor="@color/colorPinkOrange"
+            fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+            fancy:fb_radius="30dp"
+            fancy:fb_text="@string/add_buddy_string"
+            fancy:fb_textColor="#FFFFFF" />
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"
+        android:layout_below="@+id/image_view_profile_pic_friends_view_holder"/>
+
+</RelativeLayout>

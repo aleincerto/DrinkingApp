@@ -3,6 +3,8 @@ package urmc.drinkingapp.model;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -19,12 +21,26 @@ public class User {
     private String mPassword;
     private String mEmail;
     private String mProfilePic = "none";
+    public Double Lat;
+    public Double Lon;
 
     private UUID mID;
     public static boolean firstTime = true;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("email", mEmail);
+        result.put("fullname", mFullname);
+        result.put("profilePic", mProfilePic);
+        result.put("Lat", Lat);
+        result.put("Lon", Lon);
+
+        return result;
     }
 
     /*
