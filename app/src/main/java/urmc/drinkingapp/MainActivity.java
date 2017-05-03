@@ -1,9 +1,17 @@
 package urmc.drinkingapp;
 
+import android.*;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -18,14 +26,18 @@ public class MainActivity extends AppCompatActivity {
     private FancyButton mFriends;
     //private Switch mDrunkMode;
     private SlideView mDrunkMode;
+    int READ_SMS_REQUEST_CODE = 77;
 
     private FirebaseAnalytics mFirebaseAnalytics;
+
+    Cursor cursor;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -58,6 +70,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS)
+                == PackageManager.PERMISSION_GRANTED) {
+            //Check texts
+            readTexts();
+
+        } else {
+            // Show rationale and request permission.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.READ_SMS},
+                    READ_SMS_REQUEST_CODE);
+        }
+
 
 
 
@@ -81,5 +105,51 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    // public static final String INBOX = "content://sms/inbox";
+    // public static final String SENT = "content://sms/sent";
+    // public static final String DRAFT = "content://sms/draft";
+    public void readTexts() {
+        cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
+        if (cursor.moveToFirst()) { // must check the result to prevent exception
+            do {
+                String msgData = "";
+                for (int idx = 0; idx < cursor.getColumnCount(); idx++) {
+                    msgData += " " + cursor.getColumnName(idx) + ":" + cursor.getString(idx);
+                    if (cursor.getColumnName(idx).equals("body")) {
+                        Toast.makeText(MainActivity.this,
+                                cursor.getString(idx),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+                // use msgData
+            } while (cursor.moveToNext());
+        } else {
+            // empty box, no SMS
+            Toast.makeText(MainActivity.this,
+                    "No texts available",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == READ_SMS_REQUEST_CODE) {
+            if (permissions.length == 1 &&
+                    permissions[0] == Manifest.permission.READ_SMS &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //mMap.setMyLocationEnabled(true);
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    //read messages
+                    readTexts();
+                } else {
+                    // Permission was denied. Display an error message.
+                }
+            }
+        }
     }
 }

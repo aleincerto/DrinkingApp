@@ -36,6 +36,9 @@
         app:animateSlideText="true"
         app:reverseSlide="false"
         app:strokeColor="@color/White"/>
+
+
+
 <!--
     <Button
         android:text="Settings"
@@ -80,7 +83,7 @@
         fancy:fb_borderWidth="1dp"
         fancy:fb_defaultColor="@color/colorPinkOrange"
         fancy:fb_focusColor="@color/colorPinkOrangeToggle"
-        fancy:fb_radius="30dp"
+        fancy:fb_radius="100dp"
         fancy:fb_text="@string/profile_title"
         fancy:fb_textColor="#FFFFFF" />
 
