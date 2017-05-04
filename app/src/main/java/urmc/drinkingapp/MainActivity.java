@@ -10,10 +10,18 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import ng.max.slideview.SlideView;
@@ -112,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
     // public static final String SENT = "content://sms/sent";
     // public static final String DRAFT = "content://sms/draft";
     public void readTexts() {
+        HashMap<String, Float> params = readParameters();
+        ArrayList<String> BOW = getDrunkWords();
         cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
         if (cursor.moveToFirst()) { // must check the result to prevent exception
             do {
@@ -119,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
                 for (int idx = 0; idx < cursor.getColumnCount(); idx++) {
                     msgData += " " + cursor.getColumnName(idx) + ":" + cursor.getString(idx);
                     if (cursor.getColumnName(idx).equals("body")) {
+                        isDrunk(cursor.getString(idx),params,BOW);
                         Toast.makeText(MainActivity.this,
                                 cursor.getString(idx),
                                 Toast.LENGTH_SHORT).show();
@@ -151,5 +162,84 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public HashMap<String, Float> readParameters(){
+        HashMap<String, Float> params = new HashMap<String, Float>();
+        //try (BufferedReader br = new BufferedReader(new FileReader("par1.txt"))) {
+        try{
+            InputStreamReader is = new InputStreamReader(getAssets().open("par1.txt"));
+            try (BufferedReader br = new BufferedReader(is)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    Log.e("READFILE",line);
+                    String[] parpr = line.split("	");
+                    Float reg = Float.parseFloat(parpr[0]);
+                    params.put(parpr[1], reg);
+                }
+            }
+        }catch (Exception e){
+            Log.e("FILEREADER","Exception Params");
+        }
+
+
+        return params;
+    }
+
+    public ArrayList<String> getDrunkWords(){
+        ArrayList<String> BOW = new ArrayList<String>();
+        try{
+            InputStreamReader is = new InputStreamReader(getAssets().open("bank_of_words.txt"));
+            try (BufferedReader br = new BufferedReader(is)) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    Log.e("READFILE BOW",line);
+                    BOW.add(line);
+                }
+            }
+        }catch (Exception e){
+            Log.e("FILEREADER","Exception Drunk Words");
+        }
+        return BOW;
+    }
+
+    public static boolean isDrunk(String text,HashMap<String, Float> params , ArrayList<String> BOW) {
+        text = text.toLowerCase();
+        boolean first_test  = false;
+        for(String test: BOW)
+        {
+            if(text.contains(test))
+            {
+                first_test = true;
+                break;
+            }
+        }
+        if(first_test)
+        {
+            float threshold = 0;
+            for(String key: params.keySet())
+            {
+                if(text.contains(key))
+                {
+                    threshold += params.get(key);
+                }
+            }
+            if(threshold > 0)
+            {
+                Log.e("DRUNKTEST","true"+" "+threshold);
+                return true;
+            }
+            else
+            {
+                Log.e("DRUNKTEST","false"+" "+threshold);
+                return false;
+            }
+        }
+        else
+        {
+            Log.e("DRUNKTEST","false no threshold");
+            return false;
+        }
+
     }
 }

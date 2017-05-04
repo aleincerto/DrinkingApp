@@ -1,0 +1,200 @@
+-1.222	she
+-0.936	he
+-0.870	your
+-0.841	people
+-0.676	they
+-0.658	are
+-0.623	my mom
+-0.600	drunk people
+-0.551	guy
+-0.500	mention you
+-0.472	her
+-0.454	for me
+-0.447	baby
+-0.431	their
+-0.423	his
+-0.417	see
+-0.394	most
+-0.377	talking
+-0.368	the drunk
+-0.365	gets
+-0.360	stupid
+-0.353	birthday
+-0.353	cool
+-0.340	how
+-0.331	if you
+-0.310	my mom is
+-0.310	mom is
+-0.307	me to
+-0.307	drunk
+-0.306	mention it
+-0.304	passed
+-0.300	person
+-0.300	all the
+-0.300	definitely
+-0.300	water
+-0.300	such
+-0.293	does
+-0.292	everyone
+-0.286	do
+-0.280	re drunk
+-0.279	no
+-0.278	you re drunk
+-0.277	happy
+-0.271	hate
+-0.268	from
+-0.265	help
+-0.264	call
+-0.260	went
+-0.256	to my
+-0.255	boys
+-0.248	lmao
+-0.241	probably
+-0.238	mention when
+-0.227	ever
+-0.227	look
+-0.223	left
+-0.222	home
+-0.220	just
+-0.218	not
+-0.215	class
+-0.213	you
+-0.211	when you re
+-0.208	cause
+-0.204	is
+-0.200	re
+-0.200	graduation
+-0.200	gettin
+-0.200	texts
+-0.200	family
+-0.200	and then
+-0.199	club
+-0.198	drunk is
+-0.198	sorry
+-0.197	anyone
+-0.195	anything
+-0.189	weed
+-0.188	rum
+-0.186	into
+-0.183	maybe
+-0.183	make
+-0.180	high
+-0.179	bring
+-0.177	text
+-0.177	yo
+-0.175	girl
+-0.169	enjoy
+-0.168	game
+-0.167	need to
+-0.164	came
+-0.163	our
+-0.160	never
+-0.159	friend
+-0.159	mention wine
+-0.158	has
+-0.156	it was
+-0.154	things
+-0.152	alcohol
+-0.151	drunk as
+-0.151	play
+-0.151	bottle
+0.411	will
+0.370	when you
+0.358	bad
+0.334	when drunk
+0.318	with
+0.303	am
+0.301	get drunk
+0.300	through
+0.296	drink
+0.292	dad
+0.286	us
+0.283	friday
+0.282	more
+0.280	still
+0.280	little
+0.280	drinking
+0.270	free
+0.263	pong
+0.261	already
+0.259	bought
+0.255	summer
+0.245	dinner
+0.237	feel
+0.237	playing
+0.236	alone
+0.236	have to
+0.236	only
+0.234	being
+0.232	zoo
+0.231	sober
+0.228	before
+0.227	beer pong
+0.224	an
+0.224	last
+0.221	too
+0.219	get me
+0.218	today
+0.213	well
+0.211	cold beer
+0.211	parents
+0.210	mention the
+0.204	may
+0.203	big
+0.203	the best
+0.202	tequila
+0.202	always
+0.200	ice
+0.200	where
+0.200	those
+0.200	give
+0.198	for the
+0.197	good
+0.197	might
+0.196	up
+0.195	drink beer
+0.195	shots
+0.195	because
+0.193	while
+0.189	tap
+0.189	is the
+0.189	guess
+0.189	damn
+0.187	red
+0.185	nice
+0.183	yeah
+0.181	wanted
+0.181	still drunk
+0.179	for my
+0.178	photo
+0.176	here
+0.175	just want
+0.174	this
+0.173	let
+0.172	makes
+0.171	drinking beer
+0.168	beer in
+0.168	room
+0.167	the day
+0.166	yet
+0.165	going
+0.165	hangover
+0.164	drunk ass
+0.162	with me
+0.162	you know
+0.160	at the
+0.159	champagne
+0.159	run
+0.159	times
+0.158	music
+0.157	my beer
+0.156	long
+0.154	would
+0.152	beers
+0.149	im
+0.149	and you
+0.144	me
+0.143	wants to
+0.142	week
+0.141	and get
+0.140	actually
