@@ -37,7 +37,13 @@
         app:reverseSlide="false"
         app:strokeColor="@color/White"/>
 
-
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:id="@+id/main_activity_graph"
+        android:layout_below="@id/switch_main_activity"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"/>
 
 <!--
     <Button
@@ -79,6 +85,7 @@
         android:layout_marginBottom="48dp"
         android:layout_alignBottom="@+id/button_friends_main_activity"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
         fancy:fb_borderColor="#FFFFFF"
         fancy:fb_borderWidth="1dp"
         fancy:fb_defaultColor="@color/colorPinkOrange"
@@ -120,7 +127,9 @@
         android:paddingRight="30dp"
         android:paddingTop="10dp"
         android:layout_marginBottom="48dp"
-        android:layout_centerVertical="true"
+        android:layout_centerVertical="false"
+        android:layout_below="@id/main_activity_graph"
+        android:layout_marginTop="75dp"
         android:layout_alignStart="@+id/button_profile_main_activity"
         android:layout_alignEnd="@+id/button_profile_main_activity"
         android:layout_centerHorizontal="true"

@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,13 +16,25 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 import ng.max.slideview.SlideView;
@@ -40,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     Cursor cursor;
 
+    private GraphView mGraph;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +69,20 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Alessandro Incerto");
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+        mGraph = (GraphView) findViewById(R.id.main_activity_graph);
+        mGraph.getGridLabelRenderer().setNumVerticalLabels(3);
+        mGraph.getGridLabelRenderer().setGridColor(Color.WHITE);
+        mGraph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
+        mGraph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+        mGraph.setTitleColor(Color.WHITE);
+        mGraph.setTitle("Drunk Texting Behavior");
+        /*
+        mGraph.getLegendRenderer().setVisible(true);
+        mGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+        mGraph.getLegendRenderer().setBackgroundColor(16777215);
+        mGraph.getLegendRenderer().setTextColor(Color.WHITE);
+        */
 
         //mProfile = (Button) findViewById(R.id.button_profile_main_activity);
         mProfile = (FancyButton) findViewById(R.id.button_profile_main_activity);
@@ -85,6 +114,15 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             // Show rationale and request permission.
+            Toast.makeText(MainActivity.this,
+                    "This App requires your permission to access your texts and evaluate your drunk texting behavior",
+                    Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this,
+                    "This App requires your permission to access your texts and evaluate your drunk texting behavior",
+                    Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this,
+                    "This App requires your permission to access your texts and evaluate your drunk texting behavior",
+                    Toast.LENGTH_LONG).show();
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.READ_SMS},
                     READ_SMS_REQUEST_CODE);
@@ -122,19 +160,80 @@ public class MainActivity extends AppCompatActivity {
     public void readTexts() {
         HashMap<String, Float> params = readParameters();
         ArrayList<String> BOW = getDrunkWords();
+        Date initialDate = null;
+        Date finalDate = null;
         cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
+        HashMap<Date,Integer> drunkDays = new HashMap<Date,Integer>();
         if (cursor.moveToFirst()) { // must check the result to prevent exception
             do {
                 String msgData = "";
+                Date messageDate = millisToDate(Long.parseLong(cursor.getString(4)));
+                Log.e("DATE-TO-STRING", getSimpleDate(messageDate));
+                Log.e("STRING-TO-DATE", stringToDate(getSimpleDate(messageDate)).toString());
+                messageDate = stringToDate(getSimpleDate(messageDate));
+                if (finalDate == null){
+                    finalDate = messageDate;
+                }
+                //Log.e("INITIALDATE",finalDate.toString());
+                initialDate = messageDate;
+                //Log.e("FINALDATE",initialDate.toString());
+
+                if (isDrunk(cursor.getString(12),params,BOW)) {
+                    if (drunkDays.containsKey(messageDate)) {
+                        Log.e("ADDING DATE", messageDate.toString());
+                        drunkDays.put(messageDate, drunkDays.get(messageDate) + 1);
+                        Log.e("TOTAL DRUNKDAYS", drunkDays.get(messageDate).toString());
+                        //Toast.makeText(getBaseContext(), drunkDays.get(messageDate), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e("ADDING DATE", messageDate.toString());
+                        drunkDays.put(messageDate, 1);
+                    }
+                }
+
+                /*
+
                 for (int idx = 0; idx < cursor.getColumnCount(); idx++) {
                     msgData += " " + cursor.getColumnName(idx) + ":" + cursor.getString(idx);
+                    //Date messageDate = null;
+
+                    /*
+                    if (cursor.getColumnName(idx).equals("date")) {
+                        messageDate = millisToDate(Long.parseLong(cursor.getString(idx)));
+                        if (initialDate==null){
+                            initialDate = messageDate;
+                        }
+                        finalDate = messageDate;
+                    }
+
                     if (cursor.getColumnName(idx).equals("body")) {
-                        isDrunk(cursor.getString(idx),params,BOW);
+                        if (isDrunk(cursor.getString(idx),params,BOW)){
+                            if (drunkDays.containsKey(messageDate)){
+                                Log.e("ADDING DATE",messageDate.toString());
+                                drunkDays.put(messageDate,drunkDays.get(messageDate)+1);
+                            }else{
+                                Log.e("ADDING DATE",messageDate.toString());
+                                drunkDays.put(messageDate,1);
+                            }
+                        }
+                        /*
                         Toast.makeText(MainActivity.this,
                                 cursor.getString(idx),
                                 Toast.LENGTH_SHORT).show();
+
                     }
-                }
+
+                    /*
+                    if (cursor.getColumnName(idx).equals("date")) {
+                        Toast.makeText(MainActivity.this,
+                                millisToDate(Long.parseLong(cursor.getString(idx))),
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    Toast.makeText(MainActivity.this,
+                            cursor.getString(12),
+                            Toast.LENGTH_SHORT).show();
+
+                } */
                 // use msgData
             } while (cursor.moveToNext());
         } else {
@@ -143,6 +242,133 @@ public class MainActivity extends AppCompatActivity {
                     "No texts available",
                     Toast.LENGTH_SHORT).show();
         }
+
+        displayGraph(drunkDays, initialDate, finalDate);
+    }
+
+    public void displayGraph(HashMap<Date,Integer> drunkDays, Date initialDate, Date finalDate){
+        if (drunkDays == null || drunkDays.isEmpty()){
+            Toast.makeText(MainActivity.this,
+                    "Congrats! You have no drunk texts",
+                    Toast.LENGTH_LONG).show();
+        }else{
+            DataPoint[] dataPoints = new DataPoint[drunkDays.size()];
+            ArrayList<Date> dateArray = new ArrayList<>();
+            int index = 0;
+            for(Date date:drunkDays.keySet()){
+                //Log.e("DATE",date.toString());
+                if (date != null){
+                    //dataPoints[index] = new DataPoint(date,drunkDays.get(date));
+                    //index++;
+                    dateArray.add(date);
+                    //System.out.println(date +" "+drunkDays.get(date));
+                }
+            }
+            Collections.sort(dateArray);
+
+            for (Date date:dateArray){
+                dataPoints[index] = new DataPoint(date,drunkDays.get(date));
+                index++;
+                //System.out.println(date +" "+drunkDays.get(date));
+            }
+
+
+            /*
+            System.out.println(dataPoints);
+            System.out.println(dateArray);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, 1);
+            Date d2 = calendar.getTime();
+
+            calendar.add(Calendar.DATE, 1);
+            Date d3 = calendar.getTime();
+
+            calendar.add(Calendar.DATE, 1);
+            Date d4 = calendar.getTime();
+
+            dataPoints[dataPoints.length-3] = new DataPoint(d2,5);
+            dataPoints[dataPoints.length-2] = new DataPoint(d3,1);
+            dataPoints[dataPoints.length-1] = new DataPoint(d4,7);
+            */
+
+
+/*
+            // generate Dates
+            Calendar calendar = Calendar.getInstance();
+            Date d1 = calendar.getTime();
+            calendar.add(Calendar.DATE, 1);
+            Date d2 = calendar.getTime();
+            calendar.add(Calendar.DATE, 1);
+            Date d3 = calendar.getTime();
+            calendar.add(Calendar.DATE, 1);
+            Date d4 = calendar.getTime();
+            calendar.add(Calendar.DATE, 1);
+            Date d5 = calendar.getTime();
+
+            System.out.println(d5);
+
+
+
+// you can directly pass Date objects to DataPoint-Constructor
+// this will convert the Date to double via Date#getTime()
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                    new DataPoint(d1, 1),
+                    new DataPoint(d2, 5),
+                    new DataPoint(d3, 3),
+                    new DataPoint(d4, 7),
+                    new DataPoint(d5, 4)
+            });
+
+
+            mGraph.addSeries(series);
+            // set manual x bounds to have nice steps
+            mGraph.getViewport().setMinX(d1.getTime());
+            mGraph.getViewport().setMaxX(d3.getTime());
+
+            */
+
+
+            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
+            series.setTitle("Drunk Texts");
+            series.setDrawDataPoints(true);
+            mGraph.addSeries(series);
+
+            // set date label formatter
+            mGraph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(MainActivity.this));
+            mGraph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
+
+            // set manual x bounds to have nice steps
+
+            mGraph.getViewport().setMinX(initialDate.getTime());
+            mGraph.getViewport().setMaxX(finalDate.getTime());
+            mGraph.getViewport().setXAxisBoundsManual(true);
+
+            mGraph.getViewport().setScalable(true);
+            mGraph.getViewport().setScrollable(true);
+
+
+            //mGraph.getViewport().setMaxY(5);
+            mGraph.getViewport().setMinY(0);
+            mGraph.getViewport().setYAxisBoundsManual(true);
+
+
+
+            mGraph.getGridLabelRenderer().setNumVerticalLabels(3);
+            mGraph.getGridLabelRenderer().setGridColor(Color.WHITE);
+            mGraph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
+            mGraph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+            mGraph.setTitleColor(Color.WHITE);
+            mGraph.setTitle("Drunk Texting Behavior");
+            mGraph.getLegendRenderer().setVisible(true);
+            mGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+            mGraph.getLegendRenderer().setBackgroundColor(16777215);
+            mGraph.getLegendRenderer().setTextColor(Color.WHITE);
+
+
+            // as we use dates as labels, the human rounding to nice readable numbers is not necessary
+            mGraph.getGridLabelRenderer().setHumanRounding(false);
+        }
     }
 
 
@@ -150,16 +376,25 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == READ_SMS_REQUEST_CODE) {
             if (permissions.length == 1 &&
-                    permissions[0] == Manifest.permission.READ_SMS &&
+                    permissions[0].equals( Manifest.permission.READ_SMS )&&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //mMap.setMyLocationEnabled(true);
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
                         == PackageManager.PERMISSION_GRANTED) {
                     //read messages
                     readTexts();
-                } else {
-                    // Permission was denied. Display an error message.
                 }
+            } else {
+                // Permission was denied. Display an error message.
+                Toast.makeText(MainActivity.this,
+                        "Can't Analyze your drunk texting behavior without your permission. Go to phone settings to update your permissions",
+                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,
+                        "Can't Analyze your drunk texting behavior without your permission. Go to phone settings to update your permissions",
+                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,
+                        "Can't Analyze your drunk texting behavior without your permission. Go to phone settings to update your permissions",
+                        Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -241,5 +476,53 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
+    }
+
+    public Date millisToDate(long currentTime) {
+        String finalDate;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(currentTime);
+        //Date date = calendar.getTime();
+        return calendar.getTime();
+    }
+
+    public String getSimpleDate(Date date){
+        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
+        String dateInString = "Wed Oct 16 00:00:00 CEST 2013";
+        try {
+            SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH);
+            Date datef = parse.parse(date.toString());
+
+            //System.out.println(date);
+            Log.e("FORMATTEDDATE",datef.toString());
+            //System.out.println(formatter.format(date));
+            Log.e("FORMATTEDDATE",formatter.format(datef));
+
+            String date_to_format = formatter.format(datef);
+
+            return formatter.format(datef);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public Date stringToDate(String sdate){
+        //Date format_date = formatter.format(datef);
+        SimpleDateFormat parse2 = new SimpleDateFormat("MM-dd-yyyy",Locale.ENGLISH);
+        try{
+            Date format_date = parse2.parse(sdate);
+            Log.e("FINALFORMAT",format_date.toString());
+            return format_date;
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+        return null;
+
+        //Date final_date = formatter.parse(datef.toString());
+
+
+        //Date format_date = new SimpleDateFormat("MM-dd").parse(formatter.format(datef));
     }
 }

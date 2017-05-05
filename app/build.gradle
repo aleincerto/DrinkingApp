@@ -39,6 +39,7 @@ dependencies {
     compile 'com.google.firebase:firebase-storage:10.2.0'
     // FirebaseUI Storage only
     compile 'com.firebaseui:firebase-ui-storage:0.6.0'
+    compile 'com.jjoe64:graphview:4.2.1'
     testCompile 'junit:junit:4.12'
 }
 
