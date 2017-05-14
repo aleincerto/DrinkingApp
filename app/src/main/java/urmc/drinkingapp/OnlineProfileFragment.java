@@ -41,9 +41,8 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to display the profile of the main user. Gets the info from the Database
  */
-//fragment to display the profile of the main user
 public class OnlineProfileFragment extends Fragment {
 
 

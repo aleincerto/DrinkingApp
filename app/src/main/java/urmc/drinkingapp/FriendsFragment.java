@@ -36,9 +36,11 @@ import urmc.drinkingapp.database.DrinkingAppCollection;
 import urmc.drinkingapp.model.User;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Friends fragment displays a list of the user's friends. It is used to display the resulting users when a search is performed.
+ * It is not currently being used to display the user's friends because the MyFriendsTabFragment is being used. However, this fragment
+ * continues to be used to display the results of a search for a user
  */
-//fragment hosting the recycler view of users
+
 public class FriendsFragment extends Fragment {
 
     //instance of the recylcer view
@@ -47,14 +49,19 @@ public class FriendsFragment extends Fragment {
     //private DrinkingAppCollection mCollection;
     private FirebaseRecyclerAdapter mAdapter;
 
-    private Context mContext;
 
     private String mQuery;
+
+    private Context mContext;
 
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
+
+    //Reference to the user's friends
     private DatabaseReference mFriendReference;
+
+    //reference to the database storage to load the profile pictures of the different users
     private StorageReference mUserStorageRef;
 
     private boolean mAreWeFriends;
@@ -69,6 +76,7 @@ public class FriendsFragment extends Fragment {
         void NoResultStarted();
     }
 
+    //Process dialog to be displayed while the app loads the user's friends
     private ProgressDialog mProgressDialog;
 
     public void showProgressDialog() {
@@ -103,7 +111,7 @@ public class FriendsFragment extends Fragment {
 
         mContext = getActivity();
 
-        //gets the database collection
+        //gets the database collection - OFFLINE DATABASE
         //mCollection = DrinkingAppCollection.get(mContext);
 
         //sets up the recycler view
@@ -111,7 +119,7 @@ public class FriendsFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-        //getting arguments being passed - email of the user to be displayed
+        //getting arguments being passed - Used when we have to display the results of a search
         Bundle args = getArguments();
         if(args!=null){
             mQuery = args.getString("QUERY");
@@ -145,6 +153,7 @@ public class FriendsFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    //Load Friends and populate the list
     public void OnlineUpdateUI(Query query){
         showProgressDialog();
         mAdapter = new FirebaseRecyclerAdapter<User, FriendsViewHolder>(User.class, R.layout.friends_view_holder, FriendsViewHolder.class, query) {
@@ -161,8 +170,10 @@ public class FriendsFragment extends Fragment {
 
                 final FriendsViewHolder myView = FriendProfileHolder;
 
+                //try to obtain that user from list of friends
                 mFriendReference = FirebaseDatabase.getInstance().getReference()
                         .child("users").child(getUid()).child("friends").child(postKey);
+                //get that user's profile picture
                 mUserStorageRef = FirebaseStorage.getInstance().getReference().child(postKey);
 
                 showProgressDialog();
@@ -172,6 +183,8 @@ public class FriendsFragment extends Fragment {
                             .load(mUserStorageRef)
                             .into(myView.mProfilePic);
                 }
+
+                //check if user is a friend and update view accordingly
                 mFriendReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -198,6 +211,7 @@ public class FriendsFragment extends Fragment {
                     }
                 });
 
+                //expand profile onClick
                 FriendProfileHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -208,6 +222,7 @@ public class FriendsFragment extends Fragment {
                     }
                 });
 
+                //check if user is a friend and react accordingly when addfriend button is clicked - It converts to a deleteFriend button is user is already a friend
                 FriendProfileHolder.mAddFriendButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -259,6 +274,7 @@ public class FriendsFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    //Perform search on the database using the queryText
     public Query doMySearch(String queryText){
         return mDatabase.child("users")
                 .orderByChild("fullname")

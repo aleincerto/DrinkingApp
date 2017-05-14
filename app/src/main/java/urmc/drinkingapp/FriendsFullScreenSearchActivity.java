@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.SearchView;
 
-
+/**
+ * NOT CURRENTLY BEING USED. Activity displaying a SearchView to search for users on the database
+ * The fragment version (FullScreenSearchTab) is being used instead to be able to include it in the FriendsViewPager
+ */
 public class FriendsFullScreenSearchActivity extends AppCompatActivity {
 
     @Override

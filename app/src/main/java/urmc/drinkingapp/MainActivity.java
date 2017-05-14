@@ -39,13 +39,15 @@ import java.util.Locale;
 import mehdi.sakout.fancybuttons.FancyButton;
 import ng.max.slideview.SlideView;
 
+/**
+ * Main Activity that is displayed after a successful login into the app. From this activity it is possible
+ * to activate drunk mode, go to my profile and go to friends.
+ * This activity also performs the drunk text analysis and displays the drunk texting behavior in a graph
+ */
 public class MainActivity extends AppCompatActivity {
 
-    //private Button mProfile;
-    //private Button mFriends;
     private FancyButton mProfile;
     private FancyButton mFriends;
-    //private Switch mDrunkMode;
     private SlideView mDrunkMode;
     int READ_SMS_REQUEST_CODE = 77;
 
@@ -62,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        //Obtain the FirebaseAnalytics instance.
+        //Obtain the FirebaseAnalytics instance - Initial tests with the Firabase framework
+        //More useful information can be placed here to analyze how the user is using the app
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, "test");
@@ -70,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "image");
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
+        //Set up initial empty graph
         mGraph = (GraphView) findViewById(R.id.main_activity_graph);
         mGraph.getGridLabelRenderer().setNumVerticalLabels(3);
         mGraph.getGridLabelRenderer().setGridColor(Color.WHITE);
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         mGraph.getLegendRenderer().setTextColor(Color.WHITE);
         */
 
-        //mProfile = (Button) findViewById(R.id.button_profile_main_activity);
+        //start profile activity
         mProfile = (FancyButton) findViewById(R.id.button_profile_main_activity);
         mProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //mFriends = (Button) findViewById(R.id.button_friends_main_activity);
+        //start friends activity
         mFriends = (FancyButton) findViewById(R.id.button_friends_main_activity);
         mFriends.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //If permission to read text messages has been granted then proceed to do so and analyze the drunk texting behavior
+        //otherwise show rationale and request permission
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS)
                 == PackageManager.PERMISSION_GRANTED) {
             //Check texts
@@ -143,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
         */
 
+        //start drunk mode when slide is completed
         ((SlideView) findViewById(R.id.switch_main_activity)).setOnSlideCompleteListener(new SlideView.OnSlideCompleteListener() {
             @Override
             public void onSlideComplete(SlideView slideView) {
@@ -154,14 +161,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //Other options - Currently using SENT
     // public static final String INBOX = "content://sms/inbox";
     // public static final String SENT = "content://sms/sent";
     // public static final String DRAFT = "content://sms/draft";
+
+    /**
+     * This method is capable of reading the SMS that the user has sent and perform the drunk texting analysis using Nabil's algorithm
+     * The function stores the number of drunk texts that were sent on a given day and stores this information in a hashMap that is passed
+     * displayGraph() function to show this information in a nice graph.
+     */
     public void readTexts() {
+        //get parameters from .txt file stored in assets folder
         HashMap<String, Float> params = readParameters();
+        //get Bag of words from .txt file stored in assets folder
         ArrayList<String> BOW = getDrunkWords();
+
         Date initialDate = null;
         Date finalDate = null;
+
         cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
         HashMap<Date,Integer> drunkDays = new HashMap<Date,Integer>();
         if (cursor.moveToFirst()) { // must check the result to prevent exception
@@ -178,6 +196,8 @@ public class MainActivity extends AppCompatActivity {
                 initialDate = messageDate;
                 //Log.e("FINALDATE",initialDate.toString());
 
+                //using drunk text analysis to determine whether a given text is considered drunk texting or not
+                //depending on the results add the date to the drunkDays hashMap and increase the counter for that day
                 if (isDrunk(cursor.getString(12),params,BOW)) {
                     if (drunkDays.containsKey(messageDate)) {
                         Log.e("ADDING DATE", messageDate.toString());
@@ -243,9 +263,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
 
+        //Display the drunk texting behavior on a graph
         displayGraph(drunkDays, initialDate, finalDate);
     }
 
+    //uses graph repository: http://www.android-graphview.org/
+    //to be able to display the different dates and the number of drunk texts on that day on a nice graph
     public void displayGraph(HashMap<Date,Integer> drunkDays, Date initialDate, Date finalDate){
         if (drunkDays == null || drunkDays.isEmpty()){
             Toast.makeText(MainActivity.this,
@@ -372,6 +395,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //If the user gave permission then proceed to read SMS and compute the drunk texting behavior
+    //if the user didn't give permission then show rationale why we need permission
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == READ_SMS_REQUEST_CODE) {
@@ -399,6 +424,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Read parameters from .txt file in the assets folder
     public HashMap<String, Float> readParameters(){
         HashMap<String, Float> params = new HashMap<String, Float>();
         //try (BufferedReader br = new BufferedReader(new FileReader("par1.txt"))) {
@@ -421,6 +447,7 @@ public class MainActivity extends AppCompatActivity {
         return params;
     }
 
+    //Read drunk words (bag of words) from .txt file in the assets folder
     public ArrayList<String> getDrunkWords(){
         ArrayList<String> BOW = new ArrayList<String>();
         try{
@@ -438,6 +465,7 @@ public class MainActivity extends AppCompatActivity {
         return BOW;
     }
 
+    //Nabil's algorithm to determine if a given text is considered as drunk texting or not
     public static boolean isDrunk(String text,HashMap<String, Float> params , ArrayList<String> BOW) {
         text = text.toLowerCase();
         boolean first_test  = false;
@@ -478,6 +506,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //convert the millisecond format from the SMS attributes to a date
     public Date millisToDate(long currentTime) {
         String finalDate;
         Calendar calendar = Calendar.getInstance();
@@ -486,6 +515,8 @@ public class MainActivity extends AppCompatActivity {
         return calendar.getTime();
     }
 
+    //Get a string of a simple date from a regular long date Wed Oct 16 00:00:00 CEST 2013
+    //Conversion back and forth being made so we can get rid of the seconds and milliseconds and compare dates by day
     public String getSimpleDate(Date date){
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
         String dateInString = "Wed Oct 16 00:00:00 CEST 2013";
@@ -508,6 +539,8 @@ public class MainActivity extends AppCompatActivity {
         return "";
     }
 
+    //Convert simple string date back to long date
+    //Conversion back and forth being made so we can get rid of the seconds and milliseconds and compare dates by day
     public Date stringToDate(String sdate){
         //Date format_date = formatter.format(datef);
         SimpleDateFormat parse2 = new SimpleDateFormat("MM-dd-yyyy",Locale.ENGLISH);

@@ -5,6 +5,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+/**
+ * Activity hosting the ExpandedProfileFragment
+ * The user key needs to be passed when this activity is launch
+ * Consequently the key is passed to the fragment that is hosted by this activity
+ */
 public class ExpandedProfileActivity extends AppCompatActivity {
 
     private Bundle mUserKey;

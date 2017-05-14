@@ -8,6 +8,9 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+/**
+ * Part of the Firebase Database implementation
+ */
 public interface ChangeEventListener {
     /**
      * The type of event received when a child has been updated.

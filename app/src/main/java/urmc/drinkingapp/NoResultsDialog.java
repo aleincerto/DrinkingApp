@@ -12,6 +12,9 @@ import android.widget.TextView;
  * Created by Alessandro on 3/10/17.
  */
 
+/**
+ * NOT CURRENTLY BEING USED. Dialog to be displayed when there is no result in a search for a user. Was implemented but then dropped, could be placed again.
+ */
 public class NoResultsDialog extends DialogFragment {
 
     private TextView mMessage;

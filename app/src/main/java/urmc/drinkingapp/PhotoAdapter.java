@@ -10,7 +10,10 @@ import java.util.List;
 /**
  * Created by Alessandro on 3/26/17.
  */
-//Adapter to be used to display a RecyclerView with all the pictures
+
+/**
+ * Adapter to be used to display a RecyclerView with all the pictures
+ */
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoViewHolder>{
 
 

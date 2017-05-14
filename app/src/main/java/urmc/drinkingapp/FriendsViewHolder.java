@@ -15,7 +15,11 @@ import urmc.drinkingapp.model.User;
 /**
  * Created by Alessandro on 3/10/17.
  */
-//View holder for the recycler view displaying all friends
+
+/**
+ * View holder for the recycler view displaying all friends
+ */
+
 public class FriendsViewHolder extends RecyclerView.ViewHolder{
 
     //widgets
@@ -30,9 +34,13 @@ public class FriendsViewHolder extends RecyclerView.ViewHolder{
     //constructor - wires up all the widgets
     public FriendsViewHolder(View view){
         super(view);
+        //Wire Widgets
         mProfilePic = (ImageView)view.findViewById(R.id.image_view_profile_pic_friends_view_holder);
         mUserName = (TextView)view.findViewById(R.id.text_view_friend_name_friends_view_holder);
         mAddFriendButton = (FancyButton) view.findViewById(R.id.button_add_friend_view_holder);
+        //Do this null check because from the search results the user cannot add buddies because the resulting users are not
+        //necessarily friends. The user can only add buddies if they're already friends. So only in that case they AddBuddy button will
+        //exists
         if (view.findViewById(R.id.button_add_buddy_view_holder)!= null){
             mAddBuddyButton = (FancyButton) view.findViewById(R.id.button_add_buddy_view_holder);
         }

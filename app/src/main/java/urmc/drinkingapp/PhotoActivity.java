@@ -23,6 +23,9 @@ import java.util.UUID;
 import mehdi.sakout.fancybuttons.FancyButton;
 import urmc.drinkingapp.R;
 
+/**
+ * Activity hosting the photo fragment and a button to start the camera and take a picture
+ */
 public class PhotoActivity extends AppCompatActivity {
 
     private FancyButton mPhotoButton;

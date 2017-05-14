@@ -7,6 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+/**
+ * Searchable activity where the search is performed. The query from the SearchView is sent to this activity that consequently
+ * starts the FriendsFragment to display the resulting users
+ */
 public class FriendsSearchableActivity extends AppCompatActivity implements FriendsFragment.NoResultsProcess {
 
     public void NoResultStarted(){

@@ -7,6 +7,10 @@ import java.util.List;
  * Created by Alessandro on 3/26/17.
  */
 
+/**
+ * Collection to store all the pictures that are in the external storage of the device
+ * Used in the Photo Framework --> Photo Activity, Fragment, ViewHolder, Adapter
+ */
 //class to store a collection of paths to the pictures stored in external storage
 public class PhotoCollection {
 

@@ -5,6 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.ProgressDialog;
 
+/**
+ * Initial activity hosting the OnlineSignInFragment and the OnlineSignUp
+ * There are two callback interfaces in place to switch between these two fragments
+ */
 public class OnlineInitialActitivity extends AppCompatActivity implements OnlineSignInFragment.SignUpProcess, OnlineSignUpFragment.SignUpProcessCancel {
 
     private OnlineSignInFragment mLoginFragment;

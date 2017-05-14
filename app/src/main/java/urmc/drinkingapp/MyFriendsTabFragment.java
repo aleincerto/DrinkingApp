@@ -32,7 +32,7 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment displaying list of user's friends. Accessed when clicking the friends tab on the ViewPager
  */
 public class MyFriendsTabFragment extends Fragment {
 
@@ -108,6 +108,7 @@ public class MyFriendsTabFragment extends Fragment {
         return view;
     }
 
+    //Get Current user's UID from the database
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
@@ -119,6 +120,7 @@ public class MyFriendsTabFragment extends Fragment {
         return q;
     }
 
+    //Get friends from the database and display them in the recyclerView
     public void OnlineUpdateUI(){
 
         showProgressDialog();
@@ -333,6 +335,7 @@ public class MyFriendsTabFragment extends Fragment {
         };
         mRecyclerView.setAdapter(mAdapter);
     }
+
 
     public User mFriend;
     public User getUserFromSnapshot(DataSnapshot snapshot){

@@ -11,6 +11,10 @@ import urmc.drinkingapp.model.User;
  * Created by Alessandro on 2/25/17.
  */
 
+/*
+THIS CLASS IS NOT CURRENTLY BEING USED
+This class is part of the original offline database. Not active in the most recent implementation
+ */
 //Cursor Wrapper to facilitate the process of obtaining objects and their info from the database
 public class DrinkingAppCursorWrapper extends CursorWrapper {
 

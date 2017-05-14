@@ -5,6 +5,10 @@ import android.os.Bundle;
 
 import urmc.drinkingapp.R;
 
+/**
+ * NOT CURRENTLY BEING USED
+ * It was thought to have a different drunkMode if the user had buddies
+ */
 public class DrunkModeWithFriendActivity extends AppCompatActivity {
 
     @Override

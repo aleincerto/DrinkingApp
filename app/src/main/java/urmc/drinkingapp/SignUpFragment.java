@@ -35,7 +35,7 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * NOT CURRENTLY BEING USED. Fragment to create a new user in the offline database. OnlineSignUpFragment is being used instead.
  */
 public class SignUpFragment extends Fragment {
 

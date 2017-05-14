@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+/**
+ * Activity hosting the OnlineProfileFragment and the OnlineEditProfileFragment
+ */
 public class ProfileActivity extends AppCompatActivity implements OnlineProfileFragment.EditProfileProcess, OnlineEditProfileFragment.EditProfileFinished {
 
     private OnlineProfileFragment mProfileFragment;

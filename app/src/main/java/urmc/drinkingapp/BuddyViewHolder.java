@@ -13,7 +13,13 @@ import urmc.drinkingapp.model.User;
 /**
  * Created by Alessandro on 3/10/17.
  */
-//View holder for the recycler view displaying all friends
+
+/**
+ * Buddy View Holder for a list of buddies --> NOT CURRENTLY BEING USED
+ * The current implementation does not have a separate list for buddies but it was an idea
+ * especially if the user is going to have multiple buddies
+ */
+//View holder for the recycler view displaying all Buddies
 public class BuddyViewHolder extends RecyclerView.ViewHolder{
 
     //widgets

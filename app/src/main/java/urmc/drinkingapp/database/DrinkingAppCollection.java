@@ -18,6 +18,11 @@ import urmc.drinkingapp.model.User;
  * Created by Alessandro on 2/25/17.
  */
 
+/*
+THIS CLASS IS NOT CURRENTLY BEING USED
+This class is part of the original offline database. Not active in the most recent implementation
+It was made to communicate with the  Offline SQLite Database.
+ */
 //Class to communicate with the database
 public class DrinkingAppCollection {
 

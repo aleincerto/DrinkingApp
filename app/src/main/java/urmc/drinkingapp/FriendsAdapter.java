@@ -13,6 +13,10 @@ import urmc.drinkingapp.model.User;
  * Created by Alessandro on 3/10/17.
  */
 
+/**
+ * Helper adapter to display a list of friends in a recycler list
+ */
+
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsViewHolder> {
 
     //list of user

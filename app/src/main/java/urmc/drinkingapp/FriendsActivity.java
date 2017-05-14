@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+/**
+ * Class hosting the FriendsFragment - NOT CURRENTLY BEING USED
+ */
 public class FriendsActivity extends AppCompatActivity {
 
     private FriendsFragment mFragment;

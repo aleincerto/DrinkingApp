@@ -13,7 +13,7 @@ import android.widget.SearchView;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment displaying a SearchView to search for users on the database
  */
 public class FullScreenSearchTabFragment extends Fragment {
 

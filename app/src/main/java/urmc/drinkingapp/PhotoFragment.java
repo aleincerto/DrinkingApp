@@ -18,9 +18,8 @@ import urmc.drinkingapp.R;
 import urmc.drinkingapp.model.PhotoCollection;
 
 /**
- * A simple {@link Fragment} subclass.
+ * PhotoFragment hosting the RecyclerView with all the pictures
  */
-//PhotoFragment hosting the RecyclerView with all the pictures
 public class PhotoFragment extends Fragment {
 
     private RecyclerView mRecyclerView;

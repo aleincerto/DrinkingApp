@@ -25,9 +25,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 
+/**
+ * Drunk Mode activity currently being used
+ * Attempts to get any phone number and text message that was preset for texting
+ * Also attempts to get any phone number that was pretext for calling
+ */
+public class DrunkModeDefaultActivity extends AppCompatActivity {
 
-public class
-DrunkModeDefaultActivity extends AppCompatActivity {
     private FancyButton settingsButton;
     private FancyButton emergencyButton;
     private FancyButton cabButton;
@@ -37,20 +41,21 @@ DrunkModeDefaultActivity extends AppCompatActivity {
     String phoneNo;
     String message;
     String phoneNoCAB;
+
+    //Wires up buttons and sets event listeners
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drunk_mode_default);
         Toast.makeText(DrunkModeDefaultActivity.this, "DOES THIS SHOW UP?" , Toast.LENGTH_LONG);
 
+        //Get intents if anything is preset
         phoneNo = getIntent().getStringExtra("PHONE_NUMBER_TEXT");
         message = getIntent().getStringExtra("MESSAGE_TEXT");
-
-
         phoneNoCAB = getIntent().getStringExtra("PHONE_NUMBER_CALL");
 
 
-
+        //return to the main activity of slider is used
         ((SlideView) findViewById(R.id.switch_drunk_mode_default_activity)).setOnSlideCompleteListener(new SlideView.OnSlideCompleteListener() {
             @Override
             public void onSlideComplete(SlideView slideView) {
@@ -63,17 +68,11 @@ DrunkModeDefaultActivity extends AppCompatActivity {
 
         textButton = (FancyButton) findViewById(R.id.button_text_default_drunk_mode);
 
+        //Send text message when button is pressed
         textButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //Toast.makeText(DrunkModeDefaultActivity.this, "Calling" , Toast.LENGTH_LONG);
-               //add something to ask if want to send text then send it
-
              sendSMSMessage();
-
-
-
             }
         });
 
@@ -83,6 +82,8 @@ DrunkModeDefaultActivity extends AppCompatActivity {
 
         cabButton = (FancyButton) findViewById(R.id.button_cab_default_drunk_mode);
 
+        //if no information is preset ask user to set it
+        //check for permission to call --> if there is no permission then ask user for permission
         cabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,7 +150,7 @@ DrunkModeDefaultActivity extends AppCompatActivity {
 
 
 
-
+        //start mapsActivity
         FancyButton mLocation = (FancyButton) findViewById(R.id.button_location);
         mLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +168,7 @@ DrunkModeDefaultActivity extends AppCompatActivity {
     }
 
 
-
+    //Check for permission to text, if no permission then ask for permission
     protected void sendSMSMessage() {
 
 
@@ -189,6 +190,7 @@ DrunkModeDefaultActivity extends AppCompatActivity {
             }
             */
         }else{
+            //no info about text message
             if (phoneNo == null || message == null){
                 Toast.makeText(getApplicationContext(), "Please go to settings and fill up the information",
                         Toast.LENGTH_LONG).show();
@@ -200,6 +202,7 @@ DrunkModeDefaultActivity extends AppCompatActivity {
             }
         }
     }
+
     public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_SEND_SMS: {

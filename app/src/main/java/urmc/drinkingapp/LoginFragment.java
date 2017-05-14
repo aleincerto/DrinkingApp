@@ -23,9 +23,8 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * NOT CURRENTLY BEING USED. Original fragment to Log into the app. Current version uses OnlineSignInFragment instead
  */
-//Fragment to Log into the app
 public class LoginFragment extends Fragment {
 
     public interface SignUpProcess{

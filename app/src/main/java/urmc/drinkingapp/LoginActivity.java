@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+/**
+ * NOT CURRENTLY BEING USED. Original Login Activity, was replaced by OnlineInitialActivity
+ */
 public class LoginActivity extends AppCompatActivity implements LoginFragment.SignUpProcess, SignUpFragment.SignUpProcessCancel {
 
     private LoginFragment mLoginFragment;

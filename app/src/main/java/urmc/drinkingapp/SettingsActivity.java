@@ -14,6 +14,9 @@ import mehdi.sakout.fancybuttons.FancyButton;
 import static android.R.attr.duration;
 import static urmc.drinkingapp.R.id.text;
 
+/**
+ * Activity to obtain tonight's settings. Here is where the user can preset who to call and text beforehand.
+ */
 public class SettingsActivity extends AppCompatActivity {
 
 

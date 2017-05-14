@@ -37,7 +37,8 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Expanded Profile Fragment displays the user that was clicked from a the list of Friends
+ * Uses the Firebase Database to obtain user
  */
 public class ExpandedProfileFragment extends Fragment {
 
@@ -45,7 +46,6 @@ public class ExpandedProfileFragment extends Fragment {
     //private DrinkingAppCollection mCollection;
 
     private Context mContext;
-
     private String mEmail;
     private String mPassword;
 
@@ -64,8 +64,10 @@ public class ExpandedProfileFragment extends Fragment {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
+    //Different references for different parts of the database
     private DatabaseReference mUserReference;
     private DatabaseReference mFriendReference;
+    //Reference to Firebase storage to obtain profile picture of user
     private StorageReference mUserStorageRef;
 
 
@@ -73,8 +75,10 @@ public class ExpandedProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
+    //Function to obtain the Firebase ID of the current user
     public String getUid() {return FirebaseAuth.getInstance().getCurrentUser().getUid();}
 
+    //Process dialog to be shown while the information is downloaded from the Online database
     private ProgressDialog mProgressDialog;
 
     public void showProgressDialog() {
@@ -116,10 +120,11 @@ public class ExpandedProfileFragment extends Fragment {
         Bundle args = getArguments();
         mKey = args.getString("KEY");
 
-        // Initialize Database
+        // Initialize Database - With reference to the user
         mUserReference = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(mKey);
 
+        //Initializes reference to Fireabase storage
         mUserStorageRef = FirebaseStorage.getInstance().getReference().child(mKey);
 
         //getting the user
@@ -128,6 +133,8 @@ public class ExpandedProfileFragment extends Fragment {
         mProfilePicture = (ImageView)view.findViewById(R.id.image_view_profile_pic_expanded_profile_fragment);
         mFullnameTextView = (TextView)view.findViewById(R.id.text_view_fullname_profile_expanded_profile_fragment);
         showProgressDialog();
+
+        //Obtain value from the database - Check online documentation of Firebase for detailed explanation
         mUserReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -148,6 +155,7 @@ public class ExpandedProfileFragment extends Fragment {
                     //setting profile picture
                     String mPath = mUser.getProfilePic();
 
+                    //If no profile pic then default no pic will be loaded
                     if (!mPath.matches("none")){
                         /*
                         Bitmap photo = getScaledBitmap(mPath, 200, 200);
@@ -168,6 +176,8 @@ public class ExpandedProfileFragment extends Fragment {
         });
 
 
+        //Checks the friends of the User to see if the expanded user being looked at is a friend or not
+        //The add friend button adjusts accordingly
         mAddFriendButton = (FancyButton) view.findViewById(R.id.button_add_friend_expanded_profile_fragment);
         mFriendReference = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(getUid()).child("friends").child(mKey);
@@ -210,7 +220,7 @@ public class ExpandedProfileFragment extends Fragment {
             }
         });
 
-
+        //Sets up add friend button
         mAddFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,6 +268,7 @@ public class ExpandedProfileFragment extends Fragment {
         return BitmapFactory.decodeFile(path, scaledOptions);
     }
 
+    //Loads profile picture from the Firebase Storage
     private void loadPic(){
         Glide.with(getActivity() /* context */)
                 .using(new FirebaseImageLoader())

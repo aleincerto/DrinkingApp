@@ -44,7 +44,7 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to edit the user's profile. The changes being made are saved into the online database.
  */
 public class OnlineEditProfileFragment extends Fragment {
 
@@ -79,6 +79,7 @@ public class OnlineEditProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
+    //get current user
     public String getUid() {return FirebaseAuth.getInstance().getCurrentUser().getUid();}
 
 

@@ -30,7 +30,8 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * NOT CURRENTLY BEING USED. Buddy Tab Fragment was thought to display all your 'buddies' for the night out in a similar way to the Friends Fragment.
+ * However, the current implementation was meant just for one buddy so having a list with just one user was not really useful.
  */
 public class FriendsBuddyTabFragment extends Fragment {
 

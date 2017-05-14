@@ -21,7 +21,10 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * OFFLINE EditProfileFragment
+ * NOT CURRENTLY BEING USED
+ * The app currently uses the OnlineEditProfileFragment that interacts with the Firebase Online
+ * Database, not the SQLite offline database
  */
 public class EditProfileFragment extends Fragment {
 

@@ -19,9 +19,9 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * NOT CURRENTLY BEING USED. Fragment to display the profile of the main user (Uses Offline Database).
+ * The OnlineProfileFragment is being utilized instead.
  */
-//fragment to display the profile of the main user
 public class ProfileFragment extends Fragment {
 
 

@@ -13,7 +13,10 @@ import android.widget.ImageView;
 /**
  * Created by Alessandro on 3/26/17.
  */
-//ViewHolder to be used by the RecyclerView displaying all the images
+
+/**
+ * ViewHolder to be used by the RecyclerView displaying all the images
+ */
 public class PhotoViewHolder extends RecyclerView.ViewHolder {
 
     private ImageView mPhotoIV;

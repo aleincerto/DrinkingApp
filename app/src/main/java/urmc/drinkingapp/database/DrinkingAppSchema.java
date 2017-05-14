@@ -3,7 +3,10 @@ package urmc.drinkingapp.database;
 /**
  * Created by Alessandro on 2/25/17.
  */
-
+/*
+THIS CLASS IS NOT CURRENTLY BEING USED
+This class is part of the original offline database. Not active in the most recent implementation
+ */
 //standard implementation of a database schema - contains all the desired attributes to be added to the database
 public class DrinkingAppSchema {
 

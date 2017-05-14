@@ -7,6 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+/**
+ * View pager activity that contains two tabs: one for the fullscreenSearchFragment to perform a search for a user and another to display
+ * all the user's friends
+ */
 public class FriendsViewPagerActivity extends AppCompatActivity {
 
     private static final String TAG = "ViewPagerActivity";
@@ -19,6 +23,7 @@ public class FriendsViewPagerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_view_pager);
+
 
 
         // Create the adapter that will return a fragment for each section

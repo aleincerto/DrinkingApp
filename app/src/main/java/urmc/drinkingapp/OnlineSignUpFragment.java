@@ -31,7 +31,7 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to sign up into the app. Creates a new user for the online database and creates the firebase authentication credentials.
  */
 public class OnlineSignUpFragment extends Fragment {
 
@@ -147,6 +147,7 @@ public class OnlineSignUpFragment extends Fragment {
             }
         });
 
+        //Check for valid information
         //mSignUpButton = (Button)view.findViewById(R.id.button_sign_up_sing_up);
         mSignUpButton = (FancyButton) view.findViewById(R.id.button_sign_up_sing_up);
         mSignUpButton.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +173,7 @@ public class OnlineSignUpFragment extends Fragment {
                     Toast.makeText(getActivity(), "Enter valid login information",
                             Toast.LENGTH_SHORT).show();
                 }
-                //checks for existence of the user and else creates a new one and starts the profile activity
+
                 else{
 
 
@@ -182,7 +183,7 @@ public class OnlineSignUpFragment extends Fragment {
                     mLoginLastName = mLastNameEditText.getText().toString();
                     
                     showProgressDialog();
-
+                    //try to create the user with the given information and start the main activity if successful
                     mAuth.createUserWithEmailAndPassword(mLoginEmail, mLoginPassword)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override

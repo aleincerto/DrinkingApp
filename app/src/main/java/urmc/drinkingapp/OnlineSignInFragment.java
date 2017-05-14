@@ -30,7 +30,7 @@ import urmc.drinkingapp.model.User;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment to sign in into the app. Uses online authentication against the firebase database
  */
 public class OnlineSignInFragment extends Fragment {
 
@@ -173,6 +173,7 @@ public class OnlineSignInFragment extends Fragment {
 
                     showProgressDialog();
 
+                    //Try to authenticate the user's credentials
                     mAuth.signInWithEmailAndPassword(mLoginEmail, mLoginPassword)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -205,7 +206,7 @@ public class OnlineSignInFragment extends Fragment {
             }
         });
 
-        //listener for the signUp button - checks for validity of information inputted
+        //listener for the signUp button - starts the signUp Fragment
         //mSignUpButton = (Button)view.findViewById(R.id.button_sign_up);
         mSignUpButton = (FancyButton) view.findViewById(R.id.button_sign_up);
         mSignUpButton.setOnClickListener(new View.OnClickListener() {

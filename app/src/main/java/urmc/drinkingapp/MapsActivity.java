@@ -36,6 +36,9 @@ import java.util.Map;
 
 import urmc.drinkingapp.model.User;
 
+/**
+ * Maps activity displays the user's location and the buddy's location in real time if available
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -68,7 +71,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-        //TODO: MAKE THIS WORK WITH BUDDY
         // [START initialize_database_ref]
         mBuddyReference = mDatabase.child("users").child(getUid()).child("buddy");
         // [END initialize_database_ref]
@@ -106,8 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
+     * This is where we can add markers or lines, add listeners or move the camera.
      * If Google Play services is not installed on the device, the user will be prompted to install
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
@@ -157,6 +158,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+        //Get the location of the buddy if available
         mBuddyReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -291,6 +293,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public String getUid() {return FirebaseAuth.getInstance().getCurrentUser().getUid();}
 
+    //update own location in the database for buddy to see it
     public void updateLocation(final Location location){
         mDatabase.child("users").child(getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

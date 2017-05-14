@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import urmc.drinkingapp.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * NOT CURRENTLY BEING USED. Dialog to be displayed when there is no result in a search for a user. Was implemented but then dropped, could be placed again.
  */
 public class NoResultDialogFragment extends Fragment {
 
