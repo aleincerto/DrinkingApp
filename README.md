@@ -140,8 +140,7 @@ The Firebase Framework also provides authentication functionality that is being 
 
 The external libraries being utilized also provide documentation, so if you have doubts, especially with the graph library please refer to the links provided at the beginning. The rest of the App should have standard Android Implementations but if you have questions please contact me or read the comments I wrote on the code. 
 
-Finally, I'm going to provide some suggestions regarding the things that need to be improved and implemented:
-
+Finally, I'm going to provide some suggestions regarding the things that need to be improved and implemented
 	Permissions: The app requests permissions at different points for different features, these should not be too annoying to the user, confirm that this is the case. Moreover, after a permission is granted the app should go and implement whatever feature it was asking for permission. However, for some reason this first reaction after permission has been granted is not as good as when the user accesses the feature already with permission. Therefore, whenever you're testing something with permission try to do it multiple times as the first time the permission is being asked the functionality won't work as well. You can see this happening with Maps and tracking and with Drunk Texting graph. Clearly, this is something that needs to be improved.
 
 	Settings: The user should be able to configure the app to his own taste, especially with the permissions aspect. If the user doesn't grant permission to something the app should work fine anyway. This whole settings area needs to be implemented.
