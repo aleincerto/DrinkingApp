@@ -142,33 +142,33 @@ The external libraries being utilized also provide documentation, so if you have
 
 Finally, I'm going to provide some suggestions regarding the things that need to be improved and implemented
 
-	Permissions: The app requests permissions at different points for different features, these should not be too annoying to the user, confirm that this is the case. Moreover, after a permission is granted the app should go and implement whatever feature it was asking for permission. However, for some reason this first reaction after permission has been granted is not as good as when the user accesses the feature already with permission. Therefore, whenever you're testing something with permission try to do it multiple times as the first time the permission is being asked the functionality won't work as well. You can see this happening with Maps and tracking and with Drunk Texting graph. Clearly, this is something that needs to be improved.
+Permissions: The app requests permissions at different points for different features, these should not be too annoying to the user, confirm that this is the case. Moreover, after a permission is granted the app should go and implement whatever feature it was asking for permission. However, for some reason this first reaction after permission has been granted is not as good as when the user accesses the feature already with permission. Therefore, whenever you're testing something with permission try to do it multiple times as the first time the permission is being asked the functionality won't work as well. You can see this happening with Maps and tracking and with Drunk Texting graph. Clearly, this is something that needs to be improved.
 
-	Settings: The user should be able to configure the app to his own taste, especially with the permissions aspect. If the user doesn't grant permission to something the app should work fine anyway. This whole settings area needs to be implemented.
+Settings: The user should be able to configure the app to his own taste, especially with the permissions aspect. If the user doesn't grant permission to something the app should work fine anyway. This whole settings area needs to be implemented.
 
-	Tonight's Settings: The user has the capacity to preset certain information to be used in drunk mode. Maybe this should be available from the main screen and not from drunk mode. Additionally, a more comprehensive configuration can be provided. If the user has a buddy set then maybe some preset options about the buddy should be displayed.
+Tonight's Settings: The user has the capacity to preset certain information to be used in drunk mode. Maybe this should be available from the main screen and not from drunk mode. Additionally, a more comprehensive configuration can be provided. If the user has a buddy set then maybe some preset options about the buddy should be displayed.
 
-	Friend Requests: Currently there is no approval or disapproval of friends, one important thing to implement is that a user should not be able to just add a friend, this need to be a two side process. The user needs to send a friend request and this needs to be approved (like Facebook). This implies that the app should send notifications. Firebase has the feature of instant messaging, maybe this can be used to send notifications like friend requests. The same thing applies to the buddy system, there needs to be approval.
+Friend Requests: Currently there is no approval or disapproval of friends, one important thing to implement is that a user should not be able to just add a friend, this need to be a two side process. The user needs to send a friend request and this needs to be approved (like Facebook). This implies that the app should send notifications. Firebase has the feature of instant messaging, maybe this can be used to send notifications like friend requests. The same thing applies to the buddy system, there needs to be approval.
 
-	Authentication: Facebook, Twitter and Google Plus authentication should be implemented. Firebase has this feature. Currently, the authentication is done through email and password only.
+Authentication: Facebook, Twitter and Google Plus authentication should be implemented. Firebase has this feature. Currently, the authentication is done through email and password only.
 
-	Search Results: When searching for a user the spelling has to match, even the first letter needs to be CAPS in order to get a match. This needs to be improved. Additionally, when there are no results some message should be displayed to the user. Check the no result dialog that was implemented by not included in the current version.
+Search Results: When searching for a user the spelling has to match, even the first letter needs to be CAPS in order to get a match. This needs to be improved. Additionally, when there are no results some message should be displayed to the user. Check the no result dialog that was implemented by not included in the current version.
 
-	Buddy System: A better way to add buddies and display your buddies should be implemented. Additionally, the feature is currently a little bit buggy so more extensive testing and improvement should be done. Potentially the buddy system can be extended and allow more than one buddy at a given time.
+Buddy System: A better way to add buddies and display your buddies should be implemented. Additionally, the feature is currently a little bit buggy so more extensive testing and improvement should be done. Potentially the buddy system can be extended and allow more than one buddy at a given time.
 
-	Drunk Texting behavior: Currently the app analyzes the drunk texting behavior by looking at the SMSs that have been sent by the user. Maybe the user could have the option to have his drunk tweeting behavior analyzed.
+Drunk Texting behavior: Currently the app analyzes the drunk texting behavior by looking at the SMSs that have been sent by the user. Maybe the user could have the option to have his drunk tweeting behavior analyzed.
 
-	Graphs: In the current version the app will try to plot the analysis from all text messages that have ever been sent by the user. This should be limited to a shorter period of time. IMPORTANT: when testing this feature make sure you have some drunk text messages because otherwise there will not be any interesting information being displayed in the graph. A text message that will be marked as drunk is "drunk drunk drink" so try that, or use the code I commented out in the readTexts() function in the MainActivity for more testing.
+Graphs: In the current version the app will try to plot the analysis from all text messages that have ever been sent by the user. This should be limited to a shorter period of time. IMPORTANT: when testing this feature make sure you have some drunk text messages because otherwise there will not be any interesting information being displayed in the graph. A text message that will be marked as drunk is "drunk drunk drink" so try that, or use the code I commented out in the readTexts() function in the MainActivity for more testing.
 
-	Transitions: The movement throughout the app should be reviewed to try to give to the user the best transitions from one activity to the other. Especially when going to drunk mode maybe the user should not be able to go back unless it slides drunk mode off. Furthermore, when the user is in tonight's settings if the user clicks back he should be taken still to drunk mode and not the main screen.
+Transitions: The movement throughout the app should be reviewed to try to give to the user the best transitions from one activity to the other. Especially when going to drunk mode maybe the user should not be able to go back unless it slides drunk mode off. Furthermore, when the user is in tonight's settings if the user clicks back he should be taken still to drunk mode and not the main screen.
 
-	Landscape Mode: The app was developed entirely to work in Portrait Mode. Landscape mode should be considered, either to block the possibility of turning the device horizontally or implement the UI in landscape.
+Landscape Mode: The app was developed entirely to work in Portrait Mode. Landscape mode should be considered, either to block the possibility of turning the device horizontally or implement the UI in landscape.
 
-	Save Instance State: Only a few OnSaveInstanceState were implemented. Before released into production the app should have a more comprehensive implementation of this.dfd
+Save Instance State: Only a few OnSaveInstanceState were implemented. Before released into production the app should have a more comprehensive implementation of this.dfd
 
-	Testing: Finally, more throughout testing should be made, especially with real devices because this app has only being tested using emulators
+Testing: Finally, more throughout testing should be made, especially with real devices because this app has only being tested using emulators
 
-	Firebase: Before going into production please review the Firebase limits before starting to pay. This framework is free until a certain point and if the app gets popular and it is expected to cross this threshold then some money needs to be put into this framework. 
+Firebase: Before going into production please review the Firebase limits before starting to pay. This framework is free until a certain point and if the app gets popular and it is expected to cross this threshold then some money needs to be put into this framework. 
 
 
 
