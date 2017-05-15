@@ -15,6 +15,9 @@ Furthermore, when developing this app you should be able to connect to use versi
 
 The app utilizes an online database thanks to the Firebase framework. Please refer to its documentation online for more detail explanation about the framework: https://firebase.google.com/docs/android/setup?hl=en-419
 
+To see the database online, storage, analytics, and users please access the Firebase console (you are going to need my authorization): https://console.firebase.google.com/?utm_source=google&utm_campaign=Firebase*%20Brand%20GENERIC%20%7C%20Global&utm_medium=cpc&utm_term=firebase%20console&gclid=CLLpjZrT3dICFVyBswoddF8MMg
+
+
 I will provide some examples but I won't be able to cover all details.
 
 How the database is structured:
