@@ -48,8 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
     private FancyButton mProfile;
     private FancyButton mFriends;
+    private FancyButton mSettings;
+    private FancyButton mText;
     private SlideView mDrunkMode;
     int READ_SMS_REQUEST_CODE = 77;
+
+    private int analyzeText;
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -74,19 +78,67 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
         //Set up initial empty graph
-        mGraph = (GraphView) findViewById(R.id.main_activity_graph);
-        mGraph.getGridLabelRenderer().setNumVerticalLabels(3);
-        mGraph.getGridLabelRenderer().setGridColor(Color.WHITE);
-        mGraph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
-        mGraph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
-        mGraph.setTitleColor(Color.WHITE);
-        mGraph.setTitle("Drunk Texting Behavior");
+//        mGraph = (GraphView) findViewById(R.id.main_activity_graph);
+//        mGraph.getGridLabelRenderer().setNumVerticalLabels(3);
+//        mGraph.getGridLabelRenderer().setGridColor(Color.WHITE);
+//        mGraph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
+//        mGraph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+//        mGraph.setTitleColor(Color.WHITE);
+//        mGraph.setTitle("Drunk Texting Behavior");
         /*
         mGraph.getLegendRenderer().setVisible(true);
         mGraph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
         mGraph.getLegendRenderer().setBackgroundColor(16777215);
         mGraph.getLegendRenderer().setTextColor(Color.WHITE);
         */
+
+        analyzeText = getIntent().getIntExtra("ANALYZETEXT", 0);
+
+        //Start analyzing texts
+        mText = (FancyButton) findViewById(R.id.button_analyzing_text_main_activity);
+        mGraph = (GraphView) findViewById(R.id.main_activity_graph);
+        if(analyzeText == 0) {
+
+            mText.setVisibility(View.GONE);
+            mGraph.setVisibility(View.GONE);
+
+        } else {
+            mText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mGraph.getGridLabelRenderer().setNumVerticalLabels(3);
+                    mGraph.getGridLabelRenderer().setGridColor(Color.WHITE);
+                    mGraph.getGridLabelRenderer().setHorizontalLabelsColor(Color.WHITE);
+                    mGraph.getGridLabelRenderer().setVerticalLabelsColor(Color.WHITE);
+                    mGraph.setTitleColor(Color.WHITE);
+                    mGraph.setTitle("Drunk Texting Behavior");
+
+
+                    //If permission to read text messages has been granted then proceed to do so and analyze the drunk texting behavior
+                    //otherwise show rationale and request permission
+                    if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_SMS)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        //Check texts
+                        readTexts();
+
+                    } else {
+                        // Show rationale and request permission.
+                        Toast.makeText(MainActivity.this,
+                                "This App requires your permission to access your texts and evaluate your drunk texting behavior",
+                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this,
+                                "This App requires your permission to access your texts and evaluate your drunk texting behavior",
+                                Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this,
+                                "This App requires your permission to access your texts and evaluate your drunk texting behavior",
+                                Toast.LENGTH_LONG).show();
+                        ActivityCompat.requestPermissions(MainActivity.this,
+                                new String[]{android.Manifest.permission.READ_SMS},
+                                READ_SMS_REQUEST_CODE);
+                    }
+                }
+            });
+        }
 
         //start profile activity
         mProfile = (FancyButton) findViewById(R.id.button_profile_main_activity);
@@ -111,28 +163,40 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        //If permission to read text messages has been granted then proceed to do so and analyze the drunk texting behavior
-        //otherwise show rationale and request permission
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS)
-                == PackageManager.PERMISSION_GRANTED) {
-            //Check texts
-            readTexts();
+        //start going out settings
+        mSettings = (FancyButton) findViewById(R.id.button_out_setting_main_activity);
+        mSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, GoingOutSettingsActivity.class);
+                startActivity(i);
+            }
+        });
 
-        } else {
-            // Show rationale and request permission.
-            Toast.makeText(MainActivity.this,
-                    "This App requires your permission to access your texts and evaluate your drunk texting behavior",
-                    Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this,
-                    "This App requires your permission to access your texts and evaluate your drunk texting behavior",
-                    Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this,
-                    "This App requires your permission to access your texts and evaluate your drunk texting behavior",
-                    Toast.LENGTH_LONG).show();
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.READ_SMS},
-                    READ_SMS_REQUEST_CODE);
-        }
+
+
+//        //If permission to read text messages has been granted then proceed to do so and analyze the drunk texting behavior
+//        //otherwise show rationale and request permission
+//        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_SMS)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            //Check texts
+//            readTexts();
+//
+//        } else {
+//            // Show rationale and request permission.
+//            Toast.makeText(MainActivity.this,
+//                    "This App requires your permission to access your texts and evaluate your drunk texting behavior",
+//                    Toast.LENGTH_LONG).show();
+//            Toast.makeText(MainActivity.this,
+//                    "This App requires your permission to access your texts and evaluate your drunk texting behavior",
+//                    Toast.LENGTH_LONG).show();
+//            Toast.makeText(MainActivity.this,
+//                    "This App requires your permission to access your texts and evaluate your drunk texting behavior",
+//                    Toast.LENGTH_LONG).show();
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{android.Manifest.permission.READ_SMS},
+//                    READ_SMS_REQUEST_CODE);
+//        }
 
 
 

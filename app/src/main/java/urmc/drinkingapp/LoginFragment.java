@@ -149,8 +149,8 @@ public class LoginFragment extends Fragment {
                     else{
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         DrinkingAppCollection.mMainUser = mLoginUser;
-                        //intent.putExtra("EMAIL", mLoginEmail);
-                        //intent.putExtra("PASSWORD", mLoginPassword);
+                        intent.putExtra("EMAIL", mLoginEmail);
+                        intent.putExtra("PASSWORD", mLoginPassword);
                         getActivity().startActivity(intent);
                     }
                 }

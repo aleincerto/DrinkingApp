@@ -52,6 +52,7 @@
     <string name="location_string">Location</string>
     <string name="take_picture_string">Take a Photo</string>
     <string name="add_buddy_string">Buddy Up</string>
+    <string name="title_activity_going_out_settings">GoingOutSettingsActivity</string>
 
 
 </resources>

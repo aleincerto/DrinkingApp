@@ -12,6 +12,39 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="urmc.drinkingapp.MainActivity">
 
+    <TextView
+        android:id="@+id/text_view_app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="45dp"
+        android:text="BOTCHUS"
+        android:textStyle="bold"/>
+
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/button_analyzing_text_main_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/text_view_app_name"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/colorPinkOrange"
+        fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="Analyzing text"
+        fancy:fb_textColor="#FFFFFF" />
+
+
+    <!--<TextView-->
+        <!--android:layout_width=""-->
+        <!--android:layout_height="" />-->
+
     <!--
 
     <Switch
@@ -25,23 +58,11 @@
 
         -->
 
-    <ng.max.slideview.SlideView
-        android:id="@+id/switch_main_activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:buttonBackgroundColor="@color/White"
-        app:slideBackgroundColor="@color/colorPinkOrange"
-        app:slideText="@string/drunk_mode_string"
-        app:slideTextColor="@color/White"
-        app:animateSlideText="true"
-        app:reverseSlide="false"
-        app:strokeColor="@color/White"/>
-
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="200dip"
         android:id="@+id/main_activity_graph"
-        android:layout_below="@id/switch_main_activity"
+        android:layout_below="@id/button_analyzing_text_main_activity"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="5dp"/>
 
@@ -56,23 +77,6 @@
 
         -->
 
-    <mehdi.sakout.fancybuttons.FancyButton
-        android:id="@+id/button_settings_main_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:paddingTop="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        fancy:fb_borderColor="#FFFFFF"
-        fancy:fb_borderWidth="1dp"
-        fancy:fb_defaultColor="@color/colorPinkOrange"
-        fancy:fb_focusColor="@color/colorPinkOrangeToggle"
-        fancy:fb_radius="30dp"
-        fancy:fb_text="@string/settings_string"
-        fancy:fb_textColor="#FFFFFF" />
 
     <mehdi.sakout.fancybuttons.FancyButton
         android:id="@+id/button_profile_main_activity"
@@ -82,10 +86,10 @@
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:paddingTop="10dp"
-        android:layout_marginBottom="48dp"
-        android:layout_alignBottom="@+id/button_friends_main_activity"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@id/main_activity_graph"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         fancy:fb_borderColor="#FFFFFF"
         fancy:fb_borderWidth="1dp"
         fancy:fb_defaultColor="@color/colorPinkOrange"
@@ -126,10 +130,9 @@
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:paddingTop="10dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="20dp"
         android:layout_centerVertical="false"
-        android:layout_below="@id/main_activity_graph"
-        android:layout_marginTop="75dp"
+        android:layout_below="@id/button_profile_main_activity"
         android:layout_alignStart="@+id/button_profile_main_activity"
         android:layout_alignEnd="@+id/button_profile_main_activity"
         android:layout_centerHorizontal="true"
@@ -140,6 +143,40 @@
         fancy:fb_radius="30dp"
         fancy:fb_text="@string/friends_string"
         fancy:fb_textColor="#FFFFFF" />
+
+    <mehdi.sakout.fancybuttons.FancyButton
+        android:id="@+id/button_out_setting_main_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:layout_centerVertical="false"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@id/button_friends_main_activity"
+        android:layout_centerHorizontal="true"
+        fancy:fb_borderColor="#FFFFFF"
+        fancy:fb_borderWidth="1dp"
+        fancy:fb_defaultColor="@color/colorPinkOrange"
+        fancy:fb_focusColor="@color/colorPinkOrangeToggle"
+        fancy:fb_radius="30dp"
+        fancy:fb_text="Going out settings"
+        fancy:fb_textColor="#FFFFFF" />
+
+    <ng.max.slideview.SlideView
+        android:id="@+id/switch_main_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonBackgroundColor="@color/White"
+        app:slideBackgroundColor="@color/colorPinkOrange"
+        android:layout_below="@id/button_out_setting_main_activity"
+        app:slideText="@string/drunk_mode_string"
+        app:slideTextColor="@color/White"
+        app:animateSlideText="true"
+        app:reverseSlide="false"
+        app:strokeColor="@color/White"/>
+
 
 
 

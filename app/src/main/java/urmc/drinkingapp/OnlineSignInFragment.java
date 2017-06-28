@@ -191,7 +191,7 @@ public class OnlineSignInFragment extends Fragment {
                                     }
 
                                     else{
-                                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                                        Intent intent = new Intent(getActivity(), DrunkTextSettingsActivity.class);
                                         DrinkingAppCollection.mMainUser = mLoginUser;
                                         //intent.putExtra("EMAIL", mLoginEmail);
                                         //intent.putExtra("PASSWORD", mLoginPassword);
